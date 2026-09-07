@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تواصل معنا — Mohamad | Dev</title>
+<link rel="icon" type="image/png" href="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root {
+  --bg:#0f1115; --bg2:#161a22; --bg3:#1d2330;
+  --border:#252c3a; --text:#e9ecf2; --muted:#8a93a6;
+  --accent:#4d9fff; --accent-soft:rgba(77,159,255,.12);
+  --gold:#f59e0b; --gold-soft:rgba(245,158,11,.08);
+  --ok:#10b981; --danger:#f0555a; --radius:14px;
+}
+html[data-theme="light"] {
+  --bg:#f6f7fa; --bg2:#ffffff; --bg3:#eef1f6;
+  --border:#e3e7ee; --text:#171b23; --muted:#616b7e;
+  --accent:#2563eb; --accent-soft:rgba(37,99,235,.09);
+  --gold:#d97706; --gold-soft:rgba(217,119,6,.07);
+  --ok:#059669; --danger:#dc2626;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; }
+a { color:inherit; text-decoration:none; }
+.container { max-width:760px; margin:0 auto; padding:0 20px; }
+
+.site-header { position:sticky; top:0; z-index:100; background:var(--bg); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); }
+.header-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.1rem; }
+.brand img { width:34px; height:34px; border-radius:50%; border:2px solid var(--accent); }
+.brand .dot { color:var(--accent); }
+.icon-btn { width:38px; height:38px; border-radius:10px; border:1px solid var(--border); background:var(--bg2); color:var(--text); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; }
+.icon-btn:hover { border-color:var(--accent); }
+
+.page-title { text-align:center; padding:46px 0 10px; animation:fadeUp .5s ease both; }
+.page-title h1 { font-size:1.9rem; font-weight:800; }
+.page-title h1 span { color:var(--accent); }
+.page-title p { color:var(--muted); margin-top:6px; }
+
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:28px; margin:24px 0; animation:fadeUp .5s .1s ease both; }
+.card.business { border-color:var(--gold); background:linear-gradient(180deg, var(--gold-soft), transparent 60%), var(--bg2); animation-delay:.2s; }
+.card h2 { font-size:1.2rem; font-weight:800; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+.card .sub { color:var(--muted); font-size:.88rem; margin-bottom:20px; }
+
+.field { margin-bottom:16px; }
+.field label { display:block; font-size:.83rem; font-weight:700; color:var(--muted); margin-bottom:6px; }
+.field input, .field textarea {
+  width:100%; padding:12px 14px; background:var(--bg); color:var(--text);
+  border:1px solid var(--border); border-radius:10px; font-size:.95rem;
+  outline:none; transition:.2s; font-family:inherit; resize:vertical;
+}
+.field input:focus, .field textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+.business .field input:focus, .business .field textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px var(--gold-soft); }
+
+.note { background:var(--accent-soft); border:1px solid var(--accent); border-radius:10px; padding:12px 16px; font-size:.85rem; color:var(--muted); margin-bottom:20px; }
+.note strong { color:var(--accent); }
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; border-radius:10px; font-weight:700; font-size:.95rem; cursor:pointer; border:none; transition:.2s; width:100%; font-family:inherit; }
+.btn-accent { background:var(--accent); color:#fff; }
+.btn-gold { background:var(--gold); color:#fff; }
+.btn:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.1); }
+.btn:disabled { opacity:.55; cursor:not-allowed; }
+
+footer { border-top:1px solid var(--border); padding:28px 0; margin-top:30px; text-align:center; color:var(--muted); font-size:.85rem; }
+footer a { color:var(--accent); }
+
+.toast { position:fixed; bottom:24px; right:50%; transform:translateX(50%); padding:13px 26px; border-radius:12px; font-weight:700; z-index:1000; box-shadow:0 8px 30px rgba(0,0,0,.3); animation:fadeUp .3s ease; }
+.toast.ok { background:var(--ok); color:#fff; }
+.toast.err { background:var(--danger); color:#fff; }
+@keyframes fadeUp { from { opacity:0; transform:translate(50%,16px);} to { opacity:1; transform:translate(50%,0);} }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt="">
+      <span>Mohamad <span class="dot">|</span> Dev</span>
+    </a>
+    <a href="index.html" class="icon-btn" title="رجوع للرئيسية">←</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-title">
+    <h1>✉️ أرسل لي <span>رسالة</span></h1>
+    <p>سأقرأ رسالتك بنفسي، أعدك بذلك</p>
+  </div>
+
+  <!-- رسالة عادية -->
+  <div class="card">
+    <h2>💬 رسالة سريعة</h2>
+    <p class="sub">فكرة، سؤال، أو مجرد تحية — اكتب ما تريد</p>
+    <div class="note">💌 كن واثقاً أنني سأقرأ رسالتك. فقط <strong>رجاءً تجنب الألفاظ المسيئة</strong> — احترامك يعني لي الكثير 🙏</div>
+    <div class="field">
+      <label>رسالتك</label>
+      <textarea id="quickMsg" rows="5" maxlength="3000" placeholder="اكتب رسالتك هنا..."></textarea>
+    </div>
+    <button class="btn btn-accent" id="quickBtn" onclick="sendQuick()">📨 إرسال الرسالة</button>
+  </div>
+
+  <!-- رسالة أعمال -->
+  <div class="card business">
+    <h2>💼 تواصل للأعمال</h2>
+    <p class="sub">طلب عمل، تعاون، أو إعلان — اترك بريدك وسأرد عليك</p>
+    <div class="field">
+      <label>بريدك الإلكتروني *</label>
+      <input type="email" id="bizEmail" dir="ltr" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label>موضوع الرسالة *</label>
+      <input type="text" id="bizSubject" placeholder="مثال: طلب تطوير أداة / عرض تعاون">
+    </div>
+    <div class="field">
+      <label>تفاصيل الرسالة *</label>
+      <textarea id="bizText" rows="5" maxlength="3000" placeholder="اشرح طلبك بالتفصيل..."></textarea>
+    </div>
+    <button class="btn btn-gold" id="bizBtn" onclick="sendBusiness()">🤝 إرسال الطلب</button>
+  </div>
+</div>
+
+<footer>
+  <div class="container">© 2026 <a href="index.html">Mohamad | Dev</a> — صُنع بشغف 💙</div>
+</footer>
+
+<script>
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('md-theme', t);
+}
+setTheme(localStorage.getItem('md-theme') || 'dark');
+
+function isConfigured() { return APP_SCRIPT_URL && APP_SCRIPT_URL.indexOf('exec') !== -1 && APP_SCRIPT_URL.indexOf('ضع') === -1; }
+
+function toast(msg, type) {
+  var old = document.querySelector('.toast'); if (old) old.remove();
+  var t = document.createElement('div');
+  t.className = 'toast ' + type; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 3500);
+}
+
+async function post(body) {
+  var res = await fetch(APP_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(body)
+  });
+  return await res.json();
+}
+
+async function sendQuick() {
+  var text = document.getElementById('quickMsg').value.trim();
+  if (!text) { toast('اكتب رسالتك أولاً 😊', 'err'); return; }
+  if (!isConfigured()) { toast('النظام غير مربوط بعد', 'err'); return; }
+  var btn = document.getElementById('quickBtn');
+  btn.disabled = true; btn.textContent = '⏳ جاري الإرسال...';
+  try {
+    var j = await post({ action: 'sendMessage', text: text });
+    if (!j.success) throw new Error(j.error);
+    toast('✓ ' + j.data.message, 'ok');
+    document.getElementById('quickMsg').value = '';
+  } catch (e) { toast('✕ ' + e.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = '📨 إرسال الرسالة'; }
+}
+
+async function sendBusiness() {
+  var email = document.getElementById('bizEmail').value.trim();
+  var subject = document.getElementById('bizSubject').value.trim();
+  var text = document.getElementById('bizText').value.trim();
+  if (!email || email.indexOf('@') === -1) { toast('اكتب بريدك الإلكتروني بشكل صحيح', 'err'); return; }
+  if (!subject) { toast('اكتب موضوع الرسالة', 'err'); return; }
+  if (!text) { toast('اكتب تفاصيل الرسالة', 'err'); return; }
+  if (!isConfigured()) { toast('النظام غير مربوط بعد', 'err'); return; }
+  var btn = document.getElementById('bizBtn');
+  btn.disabled = true; btn.textContent = '⏳ جاري الإرسال...';
+  try {
+    var j = await post({ action: 'sendBusiness', email: email, subject: subject, text: text });
+    if (!j.success) throw new Error(j.error);
+    toast('✓ ' + j.data.message, 'ok');
+    document.getElementById('bizEmail').value = '';
+    document.getElementById('bizSubject').value = '';
+    document.getElementById('bizText').value = '';
+  } catch (e) { toast('✕ ' + e.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = '🤝 إرسال الطلب'; }
+}
+</script>
+</body>
+</html>
