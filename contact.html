@@ -24,54 +24,112 @@ html[data-theme="light"] {
   --ok:#059669; --danger:#dc2626;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; min-height:100vh; }
+body {
+  font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--text);
+  line-height:1.7; min-height:100vh; overflow-x:hidden;
+  transition:background .3s,color .3s;
+}
 a { color:inherit; text-decoration:none; }
-.container { max-width:760px; margin:0 auto; padding:0 20px; }
+.container { max-width:920px; margin:0 auto; padding:0 20px; }
 
-.site-header { position:sticky; top:0; z-index:100; background:var(--bg); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); }
+/* ═══ الهيدر — نصوص فقط، مطابق للرئيسية ═══ */
+.site-header {
+  position:sticky; top:0; z-index:100; background:var(--bg);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+}
+html[data-theme="dark"] .site-header { background:rgba(15,17,21,.82); }
 .header-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
 .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.1rem; }
 .brand img { width:34px; height:34px; border-radius:50%; border:2px solid var(--accent); }
 .brand .dot { color:var(--accent); }
-.icon-btn { width:38px; height:38px; border-radius:10px; border:1px solid var(--border); background:var(--bg2); color:var(--text); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; }
-.icon-btn:hover { border-color:var(--accent); }
+.header-left { display:flex; align-items:center; gap:14px; }
+.back-link { color:var(--muted); font-size:.9rem; font-weight:500; transition:.2s; }
+.back-link:hover { color:var(--accent); }
+.icon-btn {
+  width:38px; height:38px; border-radius:10px; border:1px solid var(--border);
+  background:var(--bg2); color:var(--text); cursor:pointer; display:flex;
+  align-items:center; justify-content:center; transition:.2s;
+}
+.icon-btn:hover { border-color:var(--accent); transform:rotate(15deg); }
 
-.page-title { text-align:center; padding:46px 0 10px; animation:fadeUp .5s ease both; }
-.page-title h1 { font-size:1.9rem; font-weight:800; }
-.page-title h1 span { color:var(--accent); }
-.page-title p { color:var(--muted); margin-top:6px; }
+/* ═══ رأس الصفحة ═══ */
+.page-head { text-align:center; padding:56px 0 36px; animation:fadeUp .55s ease both; }
+.page-head h1 { font-size:2.1rem; font-weight:800; }
+.page-head h1 span { color:var(--accent); }
+.page-head .lead { color:var(--muted); margin-top:8px; font-size:1.02rem; }
+.page-head .hint {
+  display:inline-block; margin-top:14px; padding:7px 18px;
+  background:var(--bg2); border:1px solid var(--border); border-radius:50px;
+  color:var(--muted); font-size:.82rem;
+}
 
-.card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:28px; margin:24px 0; animation:fadeUp .5s .1s ease both; }
-.card.business { border-color:var(--gold); background:linear-gradient(180deg, var(--gold-soft), transparent 60%), var(--bg2); animation-delay:.2s; }
-.card h2 { font-size:1.2rem; font-weight:800; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
-.card .sub { color:var(--muted); font-size:.88rem; margin-bottom:20px; }
+/* ═══ العمودان ═══ */
+.cards {
+  display:grid; grid-template-columns:1fr 1fr; gap:22px;
+  align-items:start; padding-bottom:60px;
+}
+@media (max-width:820px) { .cards { grid-template-columns:1fr; } }
 
-.field { margin-bottom:16px; }
-.field label { display:block; font-size:.83rem; font-weight:700; color:var(--muted); margin-bottom:6px; }
+.card {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:var(--radius); padding:26px;
+  animation:fadeUp .55s .12s ease both;
+}
+.card.biz { animation-delay:.22s; border-color:var(--gold); }
+.card-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.card-head svg { width:22px; height:22px; color:var(--accent); flex-shrink:0; }
+.card.biz .card-head svg { color:var(--gold); }
+.card-head h2 { font-size:1.15rem; font-weight:800; }
+.card .sub { color:var(--muted); font-size:.85rem; margin-bottom:20px; }
+
+.field { margin-bottom:15px; }
+.field label { display:block; font-size:.82rem; font-weight:700; color:var(--muted); margin-bottom:6px; }
 .field input, .field textarea {
   width:100%; padding:12px 14px; background:var(--bg); color:var(--text);
   border:1px solid var(--border); border-radius:10px; font-size:.95rem;
   outline:none; transition:.2s; font-family:inherit; resize:vertical;
 }
-.field input:focus, .field textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
-.business .field input:focus, .business .field textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px var(--gold-soft); }
+.field input:focus, .field textarea:focus {
+  border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft);
+}
+.biz .field input:focus, .biz .field textarea:focus {
+  border-color:var(--gold); box-shadow:0 0 0 3px var(--gold-soft);
+}
 
-.note { background:var(--accent-soft); border:1px solid var(--accent); border-radius:10px; padding:12px 16px; font-size:.85rem; color:var(--muted); margin-bottom:20px; }
-.note strong { color:var(--accent); }
-
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; border-radius:10px; font-weight:700; font-size:.95rem; cursor:pointer; border:none; transition:.2s; width:100%; font-family:inherit; }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 24px; border-radius:10px; font-weight:700; font-size:.95rem;
+  cursor:pointer; border:none; transition:.2s; width:100%; font-family:inherit;
+}
+.btn:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.1); }
+.btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
 .btn-accent { background:var(--accent); color:#fff; }
 .btn-gold { background:var(--gold); color:#fff; }
-.btn:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.1); }
-.btn:disabled { opacity:.55; cursor:not-allowed; }
 
-footer { border-top:1px solid var(--border); padding:28px 0; margin-top:30px; text-align:center; color:var(--muted); font-size:.85rem; }
+/* ═══ الفوتر ═══ */
+footer { border-top:1px solid var(--border); padding:28px 0; text-align:center; color:var(--muted); font-size:.85rem; }
 footer a { color:var(--accent); }
 
-.toast { position:fixed; bottom:24px; right:50%; transform:translateX(50%); padding:13px 26px; border-radius:12px; font-weight:700; z-index:1000; box-shadow:0 8px 30px rgba(0,0,0,.3); animation:fadeUp .3s ease; }
+/* ═══ التوست ═══ */
+.toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  padding:13px 26px; border-radius:12px; font-weight:700; z-index:1000;
+  box-shadow:0 8px 30px rgba(0,0,0,.3); animation:toastIn .3s ease;
+}
 .toast.ok { background:var(--ok); color:#fff; }
 .toast.err { background:var(--danger); color:#fff; }
-@keyframes fadeUp { from { opacity:0; transform:translate(50%,16px);} to { opacity:1; transform:translate(50%,0);} }
+
+/* ═══ أنيميشن — صحيح بدون أي إزاحة أفقية ═══ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes toastIn {
+  from { opacity:0; transform:translate(-50%,16px); }
+  to   { opacity:1; transform:translate(-50%,0); }
+}
+@media (max-width:640px) { .page-head h1 { font-size:1.7rem; } .card { padding:20px; } }
 </style>
 </head>
 <body>
@@ -82,47 +140,64 @@ footer a { color:var(--accent); }
       <img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt="">
       <span>Mohamad <span class="dot">|</span> Dev</span>
     </a>
-    <a href="index.html" class="icon-btn" title="رجوع للرئيسية">←</a>
+    <div class="header-left">
+      <a href="index.html" class="back-link">العودة للرئيسية</a>
+      <button class="icon-btn" id="themeToggle" title="تبديل الوضع">
+        <svg id="iconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="iconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
-<div class="container">
-  <div class="page-title">
-    <h1>✉️ أرسل لي <span>رسالة</span></h1>
-    <p>سأقرأ رسالتك بنفسي، أعدك بذلك</p>
+<main class="container">
+
+  <div class="page-head">
+    <h1>أرسل لي <span>رسالة</span></h1>
+    <p class="lead">كل رسالة تصلني أقرأها بنفسي — وأعدك بذلك</p>
+    <span class="hint">فقط رجاءً، تجنّب الألفاظ المسيئة</span>
   </div>
 
-  <!-- رسالة عادية -->
-  <div class="card">
-    <h2>💬 رسالة سريعة</h2>
-    <p class="sub">فكرة، سؤال، أو مجرد تحية — اكتب ما تريد</p>
-    <div class="note">💌 كن واثقاً أنني سأقرأ رسالتك. فقط <strong>رجاءً تجنب الألفاظ المسيئة</strong> — احترامك يعني لي الكثير 🙏</div>
-    <div class="field">
-      <label>رسالتك</label>
-      <textarea id="quickMsg" rows="5" maxlength="3000" placeholder="اكتب رسالتك هنا..."></textarea>
-    </div>
-    <button class="btn btn-accent" id="quickBtn" onclick="sendQuick()">📨 إرسال الرسالة</button>
-  </div>
+  <div class="cards">
 
-  <!-- رسالة أعمال -->
-  <div class="card business">
-    <h2>💼 تواصل للأعمال</h2>
-    <p class="sub">طلب عمل، تعاون، أو إعلان — اترك بريدك وسأرد عليك</p>
-    <div class="field">
-      <label>بريدك الإلكتروني *</label>
-      <input type="email" id="bizEmail" dir="ltr" placeholder="you@example.com">
-    </div>
-    <div class="field">
-      <label>موضوع الرسالة *</label>
-      <input type="text" id="bizSubject" placeholder="مثال: طلب تطوير أداة / عرض تعاون">
-    </div>
-    <div class="field">
-      <label>تفاصيل الرسالة *</label>
-      <textarea id="bizText" rows="5" maxlength="3000" placeholder="اشرح طلبك بالتفصيل..."></textarea>
-    </div>
-    <button class="btn btn-gold" id="bizBtn" onclick="sendBusiness()">🤝 إرسال الطلب</button>
+    <!-- ═══ رسالة سريعة ═══ -->
+    <section class="card">
+      <div class="card-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h2>رسالة سريعة</h2>
+      </div>
+      <p class="sub">فكرة، سؤال، أو مجرد تحية — اكتب ما تشاء</p>
+      <div class="field">
+        <label>رسالتك</label>
+        <textarea id="quickMsg" rows="7" maxlength="3000" placeholder="اكتب رسالتك هنا..."></textarea>
+      </div>
+      <button class="btn btn-accent" id="quickBtn" onclick="sendQuick()">إرسال الرسالة</button>
+    </section>
+
+    <!-- ═══ تواصل للأعمال ═══ -->
+    <section class="card biz">
+      <div class="card-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <h2>تواصل للأعمال</h2>
+      </div>
+      <p class="sub">طلب عمل، تعاون، أو إعلان — اترك بريدك وسأرد عليك</p>
+      <div class="field">
+        <label>بريدك الإلكتروني</label>
+        <input type="email" id="bizEmail" dir="ltr" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>موضوع الرسالة</label>
+        <input type="text" id="bizSubject" placeholder="مثال: طلب تطوير أداة / عرض تعاون">
+      </div>
+      <div class="field">
+        <label>تفاصيل الرسالة</label>
+        <textarea id="bizText" rows="4" maxlength="3000" placeholder="اشرح طلبك بالتفصيل..."></textarea>
+      </div>
+      <button class="btn btn-gold" id="bizBtn" onclick="sendBusiness()">إرسال الطلب</button>
+    </section>
+
   </div>
-</div>
+</main>
 
 <footer>
   <div class="container">© 2026 <a href="index.html">Mohamad | Dev</a> — صُنع بشغف 💙</div>
@@ -132,8 +207,13 @@ footer a { color:var(--accent); }
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('md-theme', t);
+  document.getElementById('iconMoon').style.display = t === 'dark' ? 'block' : 'none';
+  document.getElementById('iconSun').style.display = t === 'light' ? 'block' : 'none';
 }
 setTheme(localStorage.getItem('md-theme') || 'dark');
+document.getElementById('themeToggle').onclick = function () {
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+};
 
 function isConfigured() { return APP_SCRIPT_URL && APP_SCRIPT_URL.indexOf('exec') !== -1 && APP_SCRIPT_URL.indexOf('ضع') === -1; }
 
@@ -156,17 +236,17 @@ async function post(body) {
 
 async function sendQuick() {
   var text = document.getElementById('quickMsg').value.trim();
-  if (!text) { toast('اكتب رسالتك أولاً 😊', 'err'); return; }
+  if (!text) { toast('اكتب رسالتك أولاً', 'err'); return; }
   if (!isConfigured()) { toast('النظام غير مربوط بعد', 'err'); return; }
   var btn = document.getElementById('quickBtn');
-  btn.disabled = true; btn.textContent = '⏳ جاري الإرسال...';
+  btn.disabled = true; btn.textContent = 'جاري الإرسال...';
   try {
     var j = await post({ action: 'sendMessage', text: text });
     if (!j.success) throw new Error(j.error);
-    toast('✓ ' + j.data.message, 'ok');
+    toast(j.data.message, 'ok');
     document.getElementById('quickMsg').value = '';
-  } catch (e) { toast('✕ ' + e.message, 'err'); }
-  finally { btn.disabled = false; btn.textContent = '📨 إرسال الرسالة'; }
+  } catch (e) { toast(e.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = 'إرسال الرسالة'; }
 }
 
 async function sendBusiness() {
@@ -178,16 +258,16 @@ async function sendBusiness() {
   if (!text) { toast('اكتب تفاصيل الرسالة', 'err'); return; }
   if (!isConfigured()) { toast('النظام غير مربوط بعد', 'err'); return; }
   var btn = document.getElementById('bizBtn');
-  btn.disabled = true; btn.textContent = '⏳ جاري الإرسال...';
+  btn.disabled = true; btn.textContent = 'جاري الإرسال...';
   try {
     var j = await post({ action: 'sendBusiness', email: email, subject: subject, text: text });
     if (!j.success) throw new Error(j.error);
-    toast('✓ ' + j.data.message, 'ok');
+    toast(j.data.message, 'ok');
     document.getElementById('bizEmail').value = '';
     document.getElementById('bizSubject').value = '';
     document.getElementById('bizText').value = '';
-  } catch (e) { toast('✕ ' + e.message, 'err'); }
-  finally { btn.disabled = false; btn.textContent = '🤝 إرسال الطلب'; }
+  } catch (e) { toast(e.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = 'إرسال الطلب'; }
 }
 </script>
 </body>
