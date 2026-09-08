@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تخصيص الموقع — Mohamad | Dev</title>
+<link rel="icon" type="image/png" href="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="../config.js"></script>
+<style>
+:root{--bg:#0f1115;--bg2:#161a22;--bg3:#1d2330;--border:#252c3a;--text:#e9ecf2;--muted:#8a93a6;--accent:#4d9fff;--accent-soft:rgba(77,159,255,.12);--ok:#10b981;--danger:#f0555a;--radius:14px}
+html[data-theme="light"]{--bg:#f6f7fa;--bg2:#fff;--bg3:#eef1f6;--border:#e3e7ee;--text:#171b23;--muted:#616b7e;--accent:#2563eb;--accent-soft:rgba(37,99,235,.09);--ok:#059669;--danger:#dc2626}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.container{max-width:780px;margin:0 auto;padding:0 20px}
+
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px;width:100%;max-width:380px;text-align:center}
+.login-box img{width:60px;height:60px;border-radius:50%;border:3px solid var(--accent);margin-bottom:12px}
+.field{margin:14px 0}
+.field input{width:100%;padding:12px 14px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;font-size:.95rem;outline:none;transition:.2s}
+.field input:focus{border-color:var(--accent)}
+.field label{display:block;font-size:.83rem;font-weight:700;color:var(--muted);margin-bottom:6px}
+.field textarea{width:100%;padding:12px 14px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;font-size:.95rem;outline:none;font-family:inherit;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;transition:.2s;font-family:inherit}
+.btn-accent{background:var(--accent);color:#fff}
+.btn:hover:not(:disabled){filter:brightness(1.1)}
+.btn:disabled{opacity:.5}
+
+h1{font-size:1.7rem;font-weight:800;text-align:center;padding:36px 0 8px}
+.sub{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:30px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.card h3{font-size:1.02rem;font-weight:800;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.avatar-preview{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);margin-top:10px}
+.banner-preview{width:100%;max-height:110px;object-fit:cover;border-radius:10px;margin-top:10px;border:1px solid var(--border)}
+
+.link-row{display:grid;grid-template-columns:1fr 1.4fr auto;gap:8px;margin-bottom:8px}
+.link-row input{padding:10px 12px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:.9rem;outline:none}
+.link-row input:focus{border-color:var(--accent)}
+.link-row .rm{background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:8px;cursor:pointer;padding:0 14px;font-weight:700}
+.link-row .rm:hover{background:var(--danger);color:#fff}
+.add-link{background:transparent;border:1px dashed var(--border);color:var(--muted);border-radius:8px;padding:9px 18px;cursor:pointer;font-weight:700;font-size:.85rem;width:100%;margin-top:4px}
+.add-link:hover{border-color:var(--accent);color:var(--accent)}
+
+.save-bar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--border);padding:14px 0;z-index:50;display:flex;justify-content:center}
+.btn-save{background:var(--accent);color:#fff;padding:13px 40px;font-size:1rem}
+.saved-msg{color:var(--ok);font-weight:700;font-size:.9rem;align-self:center;margin-right:14px;display:none}
+.back-link{display:inline-flex;color:var(--muted);padding:9px 18px;border:1px solid var(--border);border-radius:10px;font-size:.88rem;font-weight:700;background:var(--bg2)}
+.back-link:hover{color:var(--accent);border-color:var(--accent)}
+#panel{display:none}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt="">
+    <h2 style="margin-bottom:6px">تخصيص الموقع</h2>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">دخول المسؤول فقط</p>
+    <div class="field"><input type="email" id="loginEmail" placeholder="البريد الإلكتروني"></div>
+    <div class="field"><input type="password" id="loginPassword" placeholder="كلمة السر" onkeypress="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn btn-accent" id="loginBtn" onclick="doLogin()">دخول</button>
+  </div>
+</div>
+
+<div id="panel">
+  <div class="container">
+    <div style="padding-top:26px"><a class="back-link" href="admin/index.html" target="_blank">← لوحة التحكم</a></div>
+    <h1>تخصيص الموقع</h1>
+    <p class="sub">كل ما تعدله هنا يظهر فوراً في الصفحة الرئيسية بعد الحفظ</p>
+
+    <div class="card">
+      <h3>الهوية</h3>
+      <div class="field"><label>اسم الموقع (يظهر في البار والتاب)</label><input type="text" id="siteTitle" placeholder="Mohamad | Dev"></div>
+      <div class="field"><label>الجملة التعريفية (تحت الاسم)</label><input type="text" id="tagline"></div>
+      <div class="field"><label>صورة الأفاتار (رابط) — تُستخدم أيضاً كأيقونة التاب</label><input type="url" id="avatar" dir="ltr"><img class="avatar-preview" id="avatarPrev" alt=""></div>
+    </div>
+
+    <div class="card">
+      <h3>يوتيوب و GitHub</h3>
+      <div class="field"><label>رابط قناة اليوتيوب</label><input type="url" id="youtube" dir="ltr"></div>
+      <div class="field"><label>صورة غلاف اليوتيوب (رابط)</label><input type="url" id="youtubeBanner" dir="ltr"><img class="banner-preview" id="ytPrev" alt=""></div>
+      <div class="field"><label>رابط GitHub</label><input type="url" id="github" dir="ltr"></div>
+    </div>
+
+    <div class="card">
+      <h3>روابط البار العلوي</h3>
+      <div id="headerLinksRows"></div>
+      <button class="add-link" onclick="addLinkRow('headerLinks')">+ إضافة رابط</button>
+    </div>
+
+    <div class="card">
+      <h3>روابط الأسفل (الفوتر)</h3>
+      <div id="footerLinksRows"></div>
+      <button class="add-link" onclick="addLinkRow('footerLinks')">+ إضافة رابط</button>
+    </div>
+
+    <div class="card">
+      <h3>حقوق النشر (أسفل الصفحة)</h3>
+      <div class="field"><textarea id="footerCopyright" rows="2" placeholder="© 2026 Mohamad | Dev — صُنع بشغف 💙"></textarea></div>
+    </div>
+
+    <div class="save-bar">
+      <button class="btn btn-save" id="saveBtn" onclick="saveAll()">حفظ التغييرات</button>
+      <span class="saved-msg" id="savedMsg">حُفظ بنجاح ✓</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);}
+setTheme(localStorage.getItem('md-theme')||'dark');
+var auth={email:'',password:''};
+
+async function api(action,extra){
+  var body=Object.assign({action:action,email:auth.email,password:auth.password},extra||{});
+  var res=await fetch(APP_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});
+  var j=await res.json();
+  if(!j.success)throw new Error(j.error||'خطأ');
+  return j.data;
+}
+
+async function doLogin(){
+  var email=document.getElementById('loginEmail').value.trim(),password=document.getElementById('loginPassword').value;
+  var btn=document.getElementById('loginBtn');
+  if(!email||!password)return;
+  btn.disabled=true;btn.textContent='...';
+  try{
+    auth={email:email,password:password};
+    await api('login');
+    sessionStorage.setItem('md_auth',JSON.stringify(auth));
+    showPanel();
+  }catch(e){alert('بيانات غير صحيحة');}
+  finally{btn.disabled=false;btn.textContent='دخول';}
+}
+
+function showPanel(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('panel').style.display='block';
+  loadSettings();
+}
+
+async function loadSettings(){
+  try{
+    var res=await fetch(APP_SCRIPT_URL+'?action=all');
+    var j=await res.json();
+    var s=(j.data&&j.data.settings)||{};
+    fillForm(s);
+  }catch(e){fillForm({});}
+}
+
+function fillForm(s){
+  document.getElementById('siteTitle').value=s.siteTitle||'Mohamad | Dev';
+  document.getElementById('tagline').value=s.tagline||'أصنع أدوات ومقالات تقنية تساعدك';
+  document.getElementById('avatar').value=s.avatar||'https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png';
+  document.getElementById('youtube').value=s.youtube||'https://www.youtube.com/@mohamad.elfiali';
+  document.getElementById('youtubeBanner').value=s.youtubeBanner||'https://i.postimg.cc/RVS7CjHg/download-(8).jpg';
+  document.getElementById('github').value=s.github||'https://github.com/mohamadelfiali';
+  document.getElementById('footerCopyright').value=s.footerCopyright||'© 2026 Mohamad | Dev — صُنع بشغف 💙';
+  document.getElementById('avatarPrev').src=document.getElementById('avatar').value;
+  document.getElementById('ytPrev').src=document.getElementById('youtubeBanner').value;
+  renderLinkRows('headerLinksRows',s.headerLinks&&s.headerLinks.length?s.headerLinks:[
+    {label:'الأدوات',url:'#tools'},{label:'المقالات',url:'#articles'},{label:'تواصل معنا',url:'contact.html'}
+  ]);
+  renderLinkRows('footerLinksRows',s.footerLinks&&s.footerLinks.length?s.footerLinks:[
+    {label:'تواصل معنا',url:'contact.html'},{label:'YouTube',url:'https://www.youtube.com/@mohamad.elfiali'},{label:'GitHub',url:'https://github.com/mohamadelfiali'}
+  ]);
+  document.getElementById('avatar').oninput=function(){document.getElementById('avatarPrev').src=this.value;};
+  document.getElementById('youtubeBanner').oninput=function(){document.getElementById('ytPrev').src=this.value;};
+}
+
+function renderLinkRows(containerId,links){
+  var c=document.getElementById(containerId);
+  c.innerHTML='';
+  links.forEach(function(l){addLinkRow(containerId,l.label,l.url);});
+}
+function addLinkRow(containerId,label,url){
+  var c=document.getElementById(containerId);
+  var row=document.createElement('div');
+  row.className='link-row';
+  row.innerHTML='<input type="text" placeholder="النص" value="'+(label||'')+'">'+
+    '<input type="url" placeholder="https://..." dir="ltr" value="'+(url||'')+'">'+
+    '<button class="rm" onclick="this.parentNode.remove()">×</button>';
+  c.appendChild(row);
+}
+function collectLinks(containerId){
+  var out=[];
+  document.querySelectorAll('#'+containerId+' .link-row').forEach(function(row){
+    var inputs=row.querySelectorAll('input');
+    var label=inputs[0].value.trim(),url=inputs[1].value.trim();
+    if(label&&url)out.push({label:label,url:url});
+  });
+  return out;
+}
+
+async function saveAll(){
+  var btn=document.getElementById('saveBtn');
+  btn.disabled=true;btn.textContent='جاري الحفظ...';
+  try{
+    await api('saveSettings',{settings:{
+      siteTitle:document.getElementById('siteTitle').value.trim(),
+      tagline:document.getElementById('tagline').value.trim(),
+      avatar:document.getElementById('avatar').value.trim(),
+      youtube:document.getElementById('youtube').value.trim(),
+      youtubeBanner:document.getElementById('youtubeBanner').value.trim(),
+      github:document.getElementById('github').value.trim(),
+      footerCopyright:document.getElementById('footerCopyright').value.trim(),
+      headerLinks:collectLinks('headerLinksRows'),
+      footerLinks:collectLinks('footerLinksRows')
+    }});
+    var m=document.getElementById('savedMsg');
+    m.style.display='inline';setTimeout(function(){m.style.display='none';},2500);
+  }catch(e){alert('خطأ: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='حفظ التغييرات';}
+}
+
+(function init(){
+  var saved=sessionStorage.getItem('md_auth');
+  if(saved){try{auth=JSON.parse(saved);showPanel();return;}catch(e){}}
+  document.getElementById('loginScreen').style.display='block';
+})();
+</script>
+</body>
+</html>
