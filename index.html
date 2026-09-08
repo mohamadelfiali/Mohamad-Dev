@@ -3,765 +3,457 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة التحكم — Mohamad | Dev</title>
-<link rel="icon" type="image/png" href="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png">
+<title>Mohamad | Dev</title>
+<link rel="icon" type="image/png" id="faviconLink" href="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/turndown@7/dist/turndown.js"></script>
-<script src="../config.js"></script>
+<script src="config.js"></script>
 <style>
-:root{--bg:#0f1115;--bg2:#161a22;--bg3:#1d2330;--border:#252c3a;--text:#e9ecf2;--muted:#8a93a6;--accent:#4d9fff;--accent-soft:rgba(77,159,255,.12);--danger:#f0555a;--ok:#10b981;--gold:#f59e0b;--gold-soft:rgba(245,158,11,.08);--radius:14px}
-html[data-theme="light"]{--bg:#f6f7fa;--bg2:#fff;--bg3:#eef1f6;--border:#e3e7ee;--text:#171b23;--muted:#616b7e;--accent:#2563eb;--accent-soft:rgba(37,99,235,.09);--danger:#dc2626;--ok:#059669;--gold:#d97706;--gold-soft:rgba(217,119,6,.07)}
+:root { --bg:#0f1115; --bg2:#161a22; --bg3:#1d2330; --border:#252c3a; --text:#e9ecf2; --muted:#8a93a6; --accent:#4d9fff; --accent-soft:rgba(77,159,255,.12); --gold:#f59e0b; --danger:#f0555a; --shadow:0 12px 32px rgba(0,0,0,.35); --header:rgba(15,17,21,.82); --radius:14px; }
+html[data-theme="light"] { --bg:#f6f7fa; --bg2:#fff; --bg3:#eef1f6; --border:#e3e7ee; --text:#171b23; --muted:#616b7e; --accent:#2563eb; --accent-soft:rgba(37,99,235,.09); --gold:#d97706; --danger:#dc2626; --shadow:0 12px 32px rgba(23,27,35,.08); --header:rgba(255,255,255,.85); }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
-input,textarea,select,button{font-family:inherit}
-.hidden{display:none!important}
-
-/* ═══ دخول ═══ */
-#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:40px 34px;width:100%;max-width:400px;animation:fadeUp .5s ease both}
-.login-box .logo{text-align:center;margin-bottom:28px}
-.login-box .logo img{width:64px;height:64px;border-radius:50%;margin:0 auto 12px;border:3px solid var(--accent);display:block}
-.login-box .logo h1{font-size:1.3rem;font-weight:800}
-.login-box .logo p{color:var(--muted);font-size:.85rem}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:.83rem;font-weight:700;color:var(--muted);margin-bottom:6px}
-.field input,.field textarea,.field select{width:100%;padding:12px 14px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;font-size:.95rem;outline:none;transition:.2s;resize:vertical}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;border:1px solid transparent;transition:.2s}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.btn-accent{background:var(--accent);color:#fff;width:100%}
-.btn-accent:hover:not(:disabled){filter:brightness(1.1)}
-.btn-gold{background:var(--gold);color:#fff}
-.btn-danger{background:transparent;border-color:var(--danger);color:var(--danger)}
-.btn-danger:hover{background:var(--danger);color:#fff}
-.btn-ghost{background:transparent;border-color:var(--border);color:var(--text);padding:9px 18px;font-size:.88rem}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
-.login-error{background:rgba(240,85,90,.1);border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:10px 14px;font-size:.87rem;margin-bottom:16px;display:none}
-
-/* ═══ التخطيط: شريط جانبي ═══ */
-#panel{display:none;min-height:100vh}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:250px;flex-shrink:0;background:var(--bg2);border-left:1px solid var(--border);padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow-y:auto}
-.sidebar .brand{display:flex;align-items:center;gap:10px;font-weight:800;padding:6px 10px 18px;font-size:1rem}
-.sidebar .brand img{width:36px;height:36px;border-radius:50%;border:2px solid var(--accent)}
-.side-link{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;color:var(--muted);font-weight:600;font-size:.92rem;cursor:pointer;border:none;background:transparent;width:100%;text-align:right;transition:.2s;text-decoration:none}
-.side-link:hover{background:var(--bg3);color:var(--text)}
-.side-link.active{background:var(--accent);color:#fff}
-.side-link .badge{margin-right:auto;background:var(--danger);color:#fff;font-size:.68rem;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 5px}
-.side-sep{height:1px;background:var(--border);margin:10px 6px}
-.main{flex:1;padding:26px;min-width:0}
-@media(max-width:900px){
-  .layout{flex-direction:column}
-  .sidebar{width:100%;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:10px;gap:6px}
-  .sidebar .brand{display:none}
-  .side-sep{display:none}
-  .side-link{white-space:nowrap;width:auto;padding:9px 14px}
-}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:22px}
-.card h3{font-size:1.05rem;font-weight:800;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.card.gold{border-color:var(--gold)}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
-.img-upload-zone{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:.2s;color:var(--muted);font-size:.88rem}
-.img-upload-zone:hover{border-color:var(--accent);color:var(--accent)}
-.img-preview-wrap{display:none;margin-top:12px;position:relative}
-.img-preview-wrap img{width:100%;max-height:200px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
-.img-preview-wrap .remove-img{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:.78rem;font-weight:700}
-.upload-status{font-size:.8rem;margin-top:8px;color:var(--gold);min-height:18px}
-.upload-status.done{color:var(--ok)}.upload-status.err{color:var(--danger)}
-
-/* ═══ محرر بلوجر ═══ */
-.mode-switch{display:inline-flex;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;margin-bottom:14px}
-.mode-btn{padding:8px 20px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.88rem;cursor:pointer;transition:.2s}
-.mode-btn.active{background:var(--accent);color:#fff}
-.v-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.v-tool{padding:7px 13px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.85rem;font-weight:700;cursor:pointer;transition:.2s}
-.v-tool:hover{border-color:var(--accent);color:var(--accent)}
-#visualEditor{min-height:380px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;outline:none;line-height:1.9;direction:rtl;text-align:right}
-#visualEditor:focus{border-color:var(--accent)}
-#visualEditor h2{color:var(--accent);margin:16px 0 8px}
-#visualEditor pre{background:var(--bg3);padding:12px;border-radius:8px;direction:ltr;text-align:left;overflow-x:auto;margin:10px 0}
-#visualEditor code{background:var(--bg3);padding:2px 6px;border-radius:5px;direction:ltr;display:inline-block}
-#visualEditor blockquote{border-right:3px solid var(--accent);padding:8px 14px;color:var(--muted);background:var(--accent-soft);border-radius:6px;margin:10px 0}
-#visualEditor img{max-width:100%;border-radius:8px}
-.md-editor{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:800px){.md-editor{grid-template-columns:1fr}}
-.md-editor textarea{min-height:380px;resize:vertical;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:'Courier New',monospace;font-size:.88rem;direction:ltr;text-align:left;outline:none;line-height:1.8}
-.md-editor textarea:focus{border-color:var(--accent)}
-.md-preview{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;min-height:380px;overflow-y:auto;max-height:550px}
-.editor-toolbar{display:flex;gap:8px;margin-bottom:8px;align-items:center;flex-wrap:wrap}
-.tool-btn{padding:7px 16px;border-radius:8px;border:1px solid var(--gold);background:var(--gold-soft);color:var(--gold);font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s}
-.tool-btn:hover{background:var(--gold);color:#fff}
-.ad-tag{display:inline-block;background:var(--gold-soft);border:1px solid var(--gold);color:var(--gold);font-size:.7rem;font-weight:800;padding:1px 10px;border-radius:50px;margin:6px 0}
-
-/* ═══ قوائم ═══ */
-.item-row{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;transition:.2s}
-.item-row:hover{border-color:var(--accent)}
-.item-thumb{width:64px;height:48px;border-radius:8px;object-fit:cover;background:var(--bg3);flex-shrink:0}
-.item-info{flex:1;min-width:0}
-.item-info strong{display:block;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item-info small{color:var(--muted);font-size:.78rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item-actions{display:flex;gap:6px;flex-shrink:0}
-.mini-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center}
-.mini-btn.edit:hover{border-color:var(--accent);color:var(--accent)}
-.mini-btn.del:hover{border-color:var(--danger);color:var(--danger)}
-.empty-list{text-align:center;color:var(--muted);padding:26px;font-size:.9rem}
-
-/* ═══ رسائل ═══ */
-.msg-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
-.msg-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center}
-.msg-stat .num{font-size:1.9rem;font-weight:800;color:var(--accent)}
-.msg-stat .lbl{font-size:.8rem;color:var(--muted)}
-.msg-stat.gold .num{color:var(--gold)}
-.biz-msg{background:linear-gradient(135deg,var(--gold-soft),transparent 50%),var(--bg2);border:1px solid var(--gold);border-radius:var(--radius);padding:18px;margin-bottom:14px;transition:.2s}
-.biz-msg:hover{transform:translateY(-2px)}
-.biz-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.biz-subject{font-weight:800;font-size:1.05rem;color:var(--gold)}
-.biz-email{font-size:.85rem;color:var(--accent);direction:ltr}
-.biz-date{font-size:.75rem;color:var(--muted)}
-.biz-text{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:.92rem;margin:10px 0;white-space:pre-wrap}
-.biz-actions{display:flex;gap:8px}
-.strip-wrap{display:flex;align-items:center;gap:8px}
-.strip-nav{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;font-size:1.1rem;flex-shrink:0}
-.strip-nav:hover{border-color:var(--accent);color:var(--accent)}
-.msg-strip{display:flex;gap:12px;overflow-x:auto;scroll-behavior:smooth;padding:6px 2px;flex:1}
-.g-msg{min-width:230px;max-width:230px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
-.g-msg.new-msg{border-color:var(--accent)}
-.g-msg .g-date{font-size:.7rem;color:var(--muted)}
-.g-msg .g-text{font-size:.85rem;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;white-space:pre-wrap}
-
-/* ═══ مودال ═══ */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.show{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;width:100%;max-width:440px;max-height:80vh;overflow-y:auto;animation:fadeUp .25s ease}
-.modal h3{margin-bottom:16px;font-weight:800}
-.ad-option{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:10px;cursor:pointer;transition:.2s}
-.ad-option:hover{border-color:var(--gold)}
-
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:13px 26px;border-radius:12px;font-weight:700;font-size:.9rem;z-index:1000;box-shadow:0 8px 30px rgba(0,0,0,.3);animation:toastIn .3s ease}
-.toast.ok{background:var(--ok);color:#fff}
-.toast.err{background:var(--danger);color:#fff}
-@keyframes toastIn{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+a{color:inherit;text-decoration:none}img{display:block}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.site-header{position:sticky;top:0;z-index:100;background:var(--header);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
+.brand img{width:34px;height:34px;border-radius:50%;border:2px solid var(--accent)}
+.nav{display:flex;align-items:center;gap:4px}
+.nav a{padding:8px 14px;border-radius:8px;font-size:.92rem;color:var(--muted);font-weight:500;transition:.2s;white-space:nowrap}
+.nav a:hover{color:var(--text);background:var(--bg3)}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;margin-right:8px;flex-shrink:0}
+.icon-btn:hover{border-color:var(--accent);transform:rotate(15deg)}
+@media(max-width:760px){.nav a{display:none}.nav a.keep{display:block}}
+.hero{padding:70px 0 50px;text-align:center}
+.hero-avatar{width:104px;height:104px;border-radius:50%;margin:0 auto 20px;border:3px solid var(--accent);padding:3px;animation:popIn .6s ease both}
+.hero-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.hero h1{font-size:2.4rem;font-weight:800;animation:fadeUp .6s .1s ease both}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);max-width:520px;margin:10px auto 24px;animation:fadeUp .6s .2s ease both}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s .3s ease both}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;border:1px solid transparent;transition:.2s;font-family:inherit}
+.btn svg{width:18px;height:18px}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 6px 18px var(--accent-soft);filter:brightness(1.08)}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+section{padding:45px 0}
+.sec-head{margin-bottom:26px;display:flex;align-items:baseline;gap:12px}
+.sec-head h2{font-size:1.55rem;font-weight:800;padding-right:14px;border-right:4px solid var(--accent);line-height:1.3}
+.sec-head p{color:var(--muted);font-size:.9rem}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.25s;display:flex;flex-direction:column;position:relative}
+.tool-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--accent)}
+.ad-badge{position:absolute;top:10px;left:10px;background:rgba(245,158,11,.92);color:#fff;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:50px;z-index:2;letter-spacing:.5px}
+.tool-thumb{aspect-ratio:16/9;background:var(--bg3);overflow:hidden}
+.tool-thumb img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.tool-card:hover .tool-thumb img{transform:scale(1.05)}
+.tool-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tool-body h3{font-size:1.1rem;font-weight:800}
+.tool-body p{color:var(--muted);font-size:.88rem;flex:1}
+.tool-link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:700;font-size:.9rem;margin-top:6px}
+.tool-card:hover .tool-link{gap:10px}
+/* 📢 بطاقة إعلان كود — نفس حجم بطاقة الأداة */
+.ad-code-card{min-height:330px;background:var(--bg2);border:1px dashed var(--border);border-radius:var(--radius);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.ad-code-card iframe{flex:1;width:100%;border:0;background:transparent}
+.ad-code-banner{background:var(--bg2);border:1px dashed var(--border);border-radius:var(--radius);overflow:hidden;position:relative;min-height:200px;display:flex;flex-direction:column}
+.ad-code-banner iframe{flex:1;width:100%;border:0;background:transparent}
+.articles-list{display:flex;flex-direction:column;gap:16px}
+.article-card{display:flex;gap:20px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:.25s;position:relative}
+.article-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent)}
+.article-thumb{width:230px;min-height:150px;flex-shrink:0;background:var(--bg3)}
+.article-thumb img{width:100%;height:100%;object-fit:cover}
+.article-info{padding:18px 18px 18px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.article-date{color:var(--accent);font-size:.78rem;font-weight:700}
+.article-info h3{font-size:1.15rem;font-weight:800}
+.article-info p{color:var(--muted);font-size:.88rem;flex:1}
+@media(max-width:640px){.article-card{flex-direction:column}.article-thumb{width:100%;height:160px}}
+.yt-card{display:flex;align-items:center;gap:24px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;flex-wrap:wrap;transition:.25s}
+.yt-card:hover{border-color:var(--danger);box-shadow:var(--shadow)}
+.yt-banner{width:180px;height:100px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.yt-info{flex:1;min-width:220px}
+.yt-info h3{font-size:1.25rem;font-weight:800;margin-bottom:4px}
+.yt-info p{color:var(--muted);font-size:.9rem}
+.btn-yt{background:#f00;color:#fff}
+#articleView{padding:40px 0 60px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);padding:9px 18px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.9rem;margin-bottom:26px;transition:.2s}
+.back-btn:hover{color:var(--accent);border-color:var(--accent)}
+.article-hero img{width:100%;max-height:380px;object-fit:cover;border-radius:var(--radius)}
+.article-hero h1{font-size:2rem;font-weight:800;margin:22px 0 8px}
+.article-meta{color:var(--muted);font-size:.85rem;margin-bottom:26px}
+.md-content{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:30px}
+.md-content h1,.md-content h2,.md-content h3{margin:26px 0 12px;font-weight:800;line-height:1.4}
+.md-content h1{font-size:1.6rem}.md-content h2{font-size:1.35rem;color:var(--accent)}
+.md-content p{margin:12px 0}
+.md-content ul,.md-content ol{margin:12px 26px}
+.md-content li{margin:6px 0}
+.md-content code{background:var(--bg3);padding:2px 8px;border-radius:6px;font-size:.88em;direction:ltr;display:inline-block}
+.md-content pre{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px;overflow-x:auto;direction:ltr;text-align:left;margin:16px 0}
+.md-content pre code{background:none;padding:0}
+.md-content blockquote{border-right:4px solid var(--accent);background:var(--accent-soft);padding:12px 18px;border-radius:8px;margin:16px 0;color:var(--muted)}
+.md-content img{max-width:100%;border-radius:10px;margin:14px 0}
+.md-content a{color:var(--accent);text-decoration:underline}
+.md-content table{width:100%;border-collapse:collapse;margin:16px 0}
+.md-content th,.md-content td{border:1px solid var(--border);padding:9px 14px;text-align:right}
+.md-content th{background:var(--bg3)}
+.md-content hr{border:none;border-top:1px solid var(--border);margin:26px 0}
+.ad-slot{margin:28px 0;border:1px dashed var(--border);border-radius:12px;overflow:hidden}
+.ad-slot iframe{width:100%;border:0;display:block;background:transparent;height:250px}
+footer{border-top:1px solid var(--border);padding:32px 0;margin-top:40px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:.88rem}
+.footer-links{display:flex;gap:18px}
+.footer-links a:hover{color:var(--accent)}
+.skeleton{border-radius:var(--radius);background:var(--bg2);border:1px solid var(--border);overflow:hidden;position:relative;min-height:280px}
+.skeleton::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:shimmer 1.5s infinite}
+html[data-theme="light"] .skeleton::after{background:linear-gradient(90deg,transparent,rgba(0,0,0,.04),transparent)}
+@keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.empty-msg{text-align:center;color:var(--muted);padding:40px 0}
+.setup-msg{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);padding:22px;text-align:center}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@media(max-width:640px){.hero h1{font-size:1.8rem}.md-content{padding:20px}}
 </style>
 </head>
 <body>
 
-<div id="loginScreen">
-  <div class="login-box">
-    <div class="logo">
-      <img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt="logo">
-      <h1>Mohamad <span style="color:var(--accent)">|</span> Dev</h1>
-      <p>لوحة التحكم — دخول المسؤول فقط</p>
-    </div>
-    <div class="login-error" id="loginError"></div>
-    <div class="field"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" autocomplete="username"></div>
-    <div class="field"><label>كلمة السر</label><input type="password" id="loginPassword" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()"></div>
-    <button class="btn btn-accent" id="loginBtn" onclick="doLogin()">تسجيل الدخول</button>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt="" id="brandAvatar">
+      <span id="brandTitle">Mohamad <span style="color:var(--accent)">|</span> Dev</span>
+    </a>
+    <nav class="nav" id="mainNav">
+      <a href="#tools" class="keep">الأدوات</a>
+      <a href="#articles" class="keep">المقالات</a>
+      <a href="contact.html">تواصل معنا</a>
+      <button class="icon-btn" id="themeToggle" title="تبديل الوضع">
+        <svg id="iconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="iconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </nav>
   </div>
-</div>
+</header>
 
-<div id="panel">
-  <div class="layout">
-    <!-- ═══ الشريط الجانبي ═══ -->
-    <aside class="sidebar">
-      <div class="brand"><img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt=""><span>لوحة التحكم</span></div>
-      <button class="side-link active" id="slink-tools" onclick="switchTab('tools')">🛠️ الأدوات</button>
-      <button class="side-link" id="slink-promoTools" onclick="switchTab('promoTools')">📢 أدوات إعلانية</button>
-      <button class="side-link" id="slink-articles" onclick="switchTab('articles')">📝 المقالات</button>
-      <button class="side-link" id="slink-promoArticles" onclick="switchTab('promoArticles')">📢 مقالات إعلانية</button>
-      <button class="side-link" id="slink-adCodes" onclick="switchTab('adCodes')">🏷️ أكواد الإعلانات</button>
-      <button class="side-link" id="slink-areaCodes" onclick="switchTab('areaCodes')">📍 إعلانات المواضع</button>
-      <button class="side-link" id="slink-messages" onclick="switchTab('messages')">📥 الرسائل <span class="badge hidden" id="msgBadge">0</span></button>
-      <div class="side-sep"></div>
-      <a class="side-link" href="stats.html" target="_blank">📊 الإحصاءيات ↗</a>
-      <a class="side-link" href="layout.html" target="_blank">🎨 تخصيص الموقع ↗</a>
-      <a class="side-link" href="../index.html" target="_blank">🌍 عرض الموقع ↗</a>
-      <div class="side-sep"></div>
-      <button class="side-link" onclick="logout()">🚪 خروج</button>
-    </aside>
-
-    <!-- ═══ المحتوى ═══ -->
-    <main class="main">
-
-    <!-- الأدوات -->
-    <div id="toolsTab">
-      <div class="card">
-        <h3 id="toolFormTitle">إضافة أداة جديدة</h3>
-        <input type="hidden" id="toolEditingId" value="">
-        <div class="field"><label>عنوان الأداة *</label><input type="text" id="toolTitle"></div>
-        <div class="field"><label>الوصف القصير *</label><input type="text" id="toolDesc"></div>
-        <div class="field"><label>رابط الأداة *</label><input type="url" id="toolUrl" dir="ltr"></div>
-        <div class="field">
-          <label>صورة الأداة *</label>
-          <div class="img-upload-zone" onclick="document.getElementById('toolImgInput').click()">اختر صورة (حتى 5MB)</div>
-          <input type="file" id="toolImgInput" accept="image/*" class="hidden" onchange="handleImage(this,'tool')">
-          <div class="img-preview-wrap" id="toolImgPreviewWrap"><img id="toolImgPreview" alt=""><button class="remove-img" onclick="removeImage('tool')">إزالة</button></div>
-          <div class="upload-status" id="toolImgStatus"></div>
-        </div>
-        <div style="display:flex;gap:10px">
-          <button class="btn btn-accent" style="width:auto" id="toolSubmitBtn" onclick="submitTool()">نشر الأداة</button>
-          <button class="btn btn-ghost hidden" id="toolCancelBtn" onclick="cancelToolEdit()">إلغاء</button>
-        </div>
+<main class="container">
+  <div id="homeView">
+    <section class="hero">
+      <div class="hero-avatar"><img src="https://i.postimg.cc/ryJ4HQP1/13a086e8-4578-4012-944b-3aec0aa98aaf.png" alt="avatar" id="heroAvatar"></div>
+      <h1 id="heroTitle">Mohamad <span>|</span> Dev</h1>
+      <p id="heroTagline"></p>
+      <div class="hero-btns" id="heroBtns">
+        <a class="btn btn-accent" id="ytHeroBtn" href="https://www.youtube.com/@mohamad.elfiali" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12z"/></svg>
+          قناة اليوتيوب
+        </a>
+        <a class="btn btn-outline" href="contact.html">راسلني</a>
+        <a class="btn btn-outline" id="ghHeroBtn" href="https://github.com/mohamadelfiali" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.6 18.4.5 12 .5z"/></svg>
+          GitHub
+        </a>
       </div>
-      <div class="card"><h3>الأدوات المنشورة (<span id="toolsCount">0</span>)</h3><div id="toolsList"></div></div>
-    </div>
+    </section>
 
-    <!-- أدوات إعلانية -->
-    <div id="promoToolsTab" class="hidden">
-      <div class="card gold">
-        <h3>إضافة أداة إعلانية</h3>
-        <div class="field"><label>العنوان *</label><input type="text" id="promoToolTitle"></div>
-        <div class="field"><label>الوصف *</label><input type="text" id="promoToolDesc"></div>
-        <div class="field"><label>الرابط (اختياري)</label><input type="url" id="promoToolUrl" dir="ltr"></div>
-        <div class="field">
-          <label>الصورة *</label>
-          <div class="img-upload-zone" onclick="document.getElementById('promoToolImgInput').click()">اختر صورة</div>
-          <input type="file" id="promoToolImgInput" accept="image/*" class="hidden" onchange="handleImage(this,'promoTool')">
-          <div class="img-preview-wrap" id="promoToolImgPreviewWrap"><img id="promoToolImgPreview" alt=""><button class="remove-img" onclick="removeImage('promoTool')">إزالة</button></div>
-          <div class="upload-status" id="promoToolImgStatus"></div>
+    <section id="tools">
+      <div class="sec-head"><h2>الأدوات</h2><p>أدوات مجانية صممتها لتسهيل حياتك الرقمية</p></div>
+      <div class="tools-grid" id="toolsGrid"></div>
+    </section>
+
+    <section id="articles">
+      <div class="sec-head"><h2>المقالات</h2><p>شروحات وأفكار أشاركها معك</p></div>
+      <div class="articles-list" id="articlesList"></div>
+    </section>
+
+    <section id="youtube">
+      <div class="yt-card reveal">
+        <img class="yt-banner" id="ytBanner" src="https://i.postimg.cc/RVS7CjHg/download-(8).jpg" alt="قناة اليوتيوب">
+        <div class="yt-info">
+          <h3 id="ytTitle">قناتي على اليوتيوب</h3>
+          <p>شروحات بالفيديو حول البرمجة والأدوات — اشترك ليصلك كل جديد!</p>
         </div>
-        <button class="btn btn-gold" id="promoToolSubmitBtn" onclick="submitPromoTool()">نشر الإعلان</button>
+        <a class="btn btn-yt" id="ytBtn" href="https://www.youtube.com/@mohamad.elfiali" target="_blank" rel="noopener">اشترك الآن</a>
       </div>
-      <div class="card"><h3>الإعلانات المنشورة (<span id="promoToolsCount">0</span>)</h3><div id="promoToolsList"></div></div>
-    </div>
-
-    <!-- المقالات — محرر بلوجر -->
-    <div id="articlesTab" class="hidden">
-      <div class="card">
-        <h3 id="articleFormTitle">إنشاء مقال جديد</h3>
-        <input type="hidden" id="articleEditingId" value="">
-        <div class="grid-2">
-          <div class="field"><label>عنوان المقال *</label><input type="text" id="articleTitle"></div>
-          <div class="field"><label>الوصف القصير *</label><input type="text" id="articleDesc"></div>
-        </div>
-        <div class="field">
-          <label>صورة الغلاف *</label>
-          <div class="img-upload-zone" onclick="document.getElementById('articleImgInput').click()">اختر صورة غلاف</div>
-          <input type="file" id="articleImgInput" accept="image/*" class="hidden" onchange="handleImage(this,'article')">
-          <div class="img-preview-wrap" id="articleImgPreviewWrap"><img id="articleImgPreview" alt=""><button class="remove-img" onclick="removeImage('article')">إزالة</button></div>
-          <div class="upload-status" id="articleImgStatus"></div>
-        </div>
-        <div class="field">
-          <!-- ═══ مبدّل الوضع مثل بلوجر ═══ -->
-          <div class="mode-switch">
-            <button class="mode-btn active" id="modeVisualBtn" onclick="setEditorMode('visual')">محرر مرئي</button>
-            <button class="mode-btn" id="modeMdBtn" onclick="setEditorMode('md')">Markdown</button>
-          </div>
-
-          <!-- وضع مرئي -->
-          <div id="visualWrap">
-            <div class="v-toolbar">
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtCmd('bold')"><b>B</b></button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtCmd('italic')"><i>I</i></button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtCmd('underline')"><u>U</u></button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtBlock('H2')">H2</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtBlock('H3')">H3</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtBlock('P')">نص</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtCmd('insertUnorderedList')">• قائمة</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtCmd('insertOrderedList')">1. قائمة</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="fmtBlock('PRE')">كود</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="insertLink()">🔗 رابط</button>
-              <button class="v-tool" onmousedown="event.preventDefault()" onclick="insertLinkImage()">🖼️ صورة برابط</button>
-              <button class="tool-btn" onmousedown="event.preventDefault()" onclick="openAdPicker()">📢 إدراج إعلان</button>
-            </div>
-            <div id="visualEditor" contenteditable="true"></div>
-          </div>
-
-          <!-- وضع Markdown -->
-          <div id="mdWrap" class="hidden">
-            <div class="editor-toolbar">
-              <span style="font-size:.78rem;color:var(--muted)">اكتب بصيغة Markdown — المعاينة بجانبك</span>
-            </div>
-            <div class="md-editor">
-              <textarea id="articleContent" oninput="previewMd()" placeholder="# عنوان&#10;&#10;اكتب هنا..."></textarea>
-              <div class="md-preview" id="mdPreview"></div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px">
-          <button class="btn btn-accent" style="width:auto" id="articleSubmitBtn" onclick="submitArticle()">نشر المقال</button>
-          <button class="btn btn-ghost hidden" id="articleCancelBtn" onclick="cancelArticleEdit()">إلغاء</button>
-        </div>
-      </div>
-      <div class="card"><h3>المقالات المنشورة (<span id="articlesCount">0</span>)</h3><div id="articlesList"></div></div>
-    </div>
-
-    <!-- مقالات إعلانية -->
-    <div id="promoArticlesTab" class="hidden">
-      <div class="card gold">
-        <h3>إضافة مقال إعلاني</h3>
-        <div class="grid-2">
-          <div class="field"><label>العنوان *</label><input type="text" id="promoArticleTitle"></div>
-          <div class="field"><label>الوصف *</label><input type="text" id="promoArticleDesc"></div>
-        </div>
-        <div class="field"><label>الرابط (اختياري)</label><input type="url" id="promoArticleUrl" dir="ltr"></div>
-        <div class="field">
-          <label>الصورة *</label>
-          <div class="img-upload-zone" onclick="document.getElementById('promoArticleImgInput').click()">اختر صورة</div>
-          <input type="file" id="promoArticleImgInput" accept="image/*" class="hidden" onchange="handleImage(this,'promoArticle')">
-          <div class="img-preview-wrap" id="promoArticleImgPreviewWrap"><img id="promoArticleImgPreview" alt=""><button class="remove-img" onclick="removeImage('promoArticle')">إزالة</button></div>
-          <div class="upload-status" id="promoArticleImgStatus"></div>
-        </div>
-        <button class="btn btn-gold" id="promoArticleSubmitBtn" onclick="submitPromoArticle()">نشر الإعلان</button>
-      </div>
-      <div class="card"><h3>الإعلانات المنشورة (<span id="promoArticlesCount">0</span>)</h3><div id="promoArticlesList"></div></div>
-    </div>
-
-    <!-- أكواد الإعلانات -->
-    <div id="adCodesTab" class="hidden">
-      <div class="card gold">
-        <h3>إضافة كود إعلان</h3>
-        <p style="color:var(--muted);font-size:.85rem;margin:-10px 0 16px">أضف الكود مرة واحدة، ثم استخدم زر "إدراج إعلان" داخل المقال</p>
-        <div class="field"><label>اسم الكود *</label><input type="text" id="adCodeName" placeholder="مثال: أدستيرا بانر"></div>
-        <div class="field"><label>كود الإعلان *</label><textarea id="adCodeText" rows="7" dir="ltr" style="font-family:'Courier New',monospace;font-size:.8rem;text-align:left"></textarea></div>
-        <button class="btn btn-gold" id="adCodeSubmitBtn" onclick="submitAdCode()">حفظ الكود</button>
-      </div>
-      <div class="card"><h3>الأكواد المحفوظة (<span id="adCodesCount">0</span>)</h3><div id="adCodesList"></div></div>
-    </div>
-
-    <!-- 📍 إعلانات المواضع -->
-    <div id="areaCodesTab" class="hidden">
-      <div class="card gold">
-        <h3>إعلان يظهر وسط الأدوات أو وسط المقالات</h3>
-        <p style="color:var(--muted);font-size:.85rem;margin:-10px 0 16px">الصق كود الإعلان واختر موقعه — سيظهر بين العناصر بشكل طبيعي</p>
-        <div class="field"><label>اسم للتعرف عليه *</label><input type="text" id="areaCodeName" placeholder="مثال: إعلان وسط الأدوات"></div>
-        <div class="field">
-          <label>الموضع *</label>
-          <select id="areaCodePosition">
-            <option value="tools">وسط الأدوات</option>
-            <option value="articles">وسط المقالات</option>
-          </select>
-        </div>
-        <div class="field"><label>كود الإعلان *</label><textarea id="areaCodeText" rows="7" dir="ltr" style="font-family:'Courier New',monospace;font-size:.8rem;text-align:left"></textarea></div>
-        <button class="btn btn-gold" id="areaCodeSubmitBtn" onclick="submitAreaCode()">حفظ الإعلان</button>
-      </div>
-      <div class="card"><h3>إعلانات المواضع (<span id="areaCodesCount">0</span>)</h3><div id="areaCodesList"></div></div>
-    </div>
-
-    <!-- الرسائل -->
-    <div id="messagesTab" class="hidden">
-      <div class="msg-stats">
-        <div class="msg-stat gold"><div class="num" id="statBiz">0</div><div class="lbl">رسائل أعمال</div></div>
-        <div class="msg-stat"><div class="num" id="statGeneral">0</div><div class="lbl">رسائل عامة</div></div>
-        <div class="msg-stat"><div class="num" id="statNew" style="color:var(--danger)">0</div><div class="lbl">غير مقروءة</div></div>
-      </div>
-      <div class="card gold"><h3>رسائل الأعمال</h3><div id="bizMessages"></div></div>
-      <div class="card"><h3>الرسائل العامة (مرر أفقياً)</h3>
-        <div class="strip-wrap">
-          <button class="strip-nav" onclick="scrollStrip(1)">›</button>
-          <div class="msg-strip" id="generalStrip"></div>
-          <button class="strip-nav" onclick="scrollStrip(-1)">‹</button>
-        </div>
-      </div>
-    </div>
-
-    </main>
+    </section>
   </div>
-</div>
 
-<div class="modal-overlay" id="adPickerModal">
-  <div class="modal">
-    <h3>اختر كود الإعلان</h3>
-    <div id="adPickerList"></div>
-    <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="closeAdPicker()">إغلاق</button>
+  <div id="articleView" style="display:none">
+    <button class="back-btn" onclick="backHome()">رجوع للرئيسية</button>
+    <div class="article-hero">
+      <img id="articleCover" src="" alt="">
+      <h1 id="articleTitle"></h1>
+      <div class="article-meta" id="articleDate"></div>
+    </div>
+    <div class="md-content" id="articleContent"><div class="skeleton" style="min-height:200px;border:none"></div></div>
   </div>
-</div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div id="footerCopy">© 2026 Mohamad | Dev — صُنع بشغف 💙</div>
+    <div class="footer-links" id="footerLinks">
+      <a href="contact.html">تواصل معنا</a>
+      <a href="https://www.youtube.com/@mohamad.elfiali" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://github.com/mohamadelfiali" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</footer>
 
 <script>
-var auth={email:'',password:''};
-var uploadedImages={tool:'',promoTool:'',article:'',promoArticle:''};
-var DATA={tools:[],articles:[],promoTools:[],promoArticles:[],adcodes:[],areacodes:[],messages:[]};
-var lastReadTime=localStorage.getItem('md_lastRead')||'0';
-var editorMode='visual';
-var turndownSvc=new TurndownService({headingStyle:'atx',codeBlockStyle:'fenced'});
+// ═══ الثيم ═══
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('md-theme',t);
+document.getElementById('iconMoon').style.display=t==='dark'?'block':'none';
+document.getElementById('iconSun').style.display=t==='light'?'block':'none';}
+setTheme(localStorage.getItem('md-theme')||'dark');
+document.getElementById('themeToggle').onclick=function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');};
 
-function isConfigured(){return APP_SCRIPT_URL&&APP_SCRIPT_URL.indexOf('exec')!==-1&&APP_SCRIPT_URL.indexOf('ضع')===-1;}
-async function api(action,extra){
-  var body=Object.assign({action:action,email:auth.email,password:auth.password},extra||{});
-  var res=await fetch(APP_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});
-  var j=await res.json();
-  if(!j.success)throw new Error(j.error||'خطأ');
-  return j.data;
-}
-function toast(msg,type){var o=document.querySelector('.toast');if(o)o.remove();
-var t=document.createElement('div');t.className='toast '+(type||'ok');t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove();},3000);}
 function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-function fmtDate(iso){try{return new Date(iso).toLocaleString('ar');}catch(e){return'';}}
+function fmtDate(iso){try{return new Date(iso).toLocaleDateString('ar',{year:'numeric',month:'long',day:'numeric'});}catch(e){return'';}}
+function isConfigured(){return APP_SCRIPT_URL&&APP_SCRIPT_URL.indexOf('exec')!==-1&&APP_SCRIPT_URL.indexOf('ضع')===-1;}
 
-// ═══ دخول ═══
-async function doLogin(){
-  var email=document.getElementById('loginEmail').value.trim(),password=document.getElementById('loginPassword').value;
-  var errBox=document.getElementById('loginError'),btn=document.getElementById('loginBtn');
-  if(!email||!password){errBox.textContent='أدخل البريد وكلمة السر';errBox.style.display='block';return;}
-  btn.disabled=true;btn.textContent='جاري التحقق...';errBox.style.display='none';
-  try{auth={email:email,password:password};await api('login');sessionStorage.setItem('md_auth',JSON.stringify(auth));showPanel();}
-  catch(err){errBox.textContent=err.message;errBox.style.display='block';auth={email:'',password:''};}
-  finally{btn.disabled=false;btn.textContent='تسجيل الدخول';}
-}
-function logout(){sessionStorage.removeItem('md_auth');location.reload();}
-function showPanel(){document.getElementById('loginScreen').style.display='none';document.getElementById('panel').style.display='block';loadAll();}
-
-// ═══ الشريط الجانبي ═══
-function switchTab(tab){
-  ['tools','promoTools','articles','promoArticles','adCodes','areaCodes','messages'].forEach(function(t){
-    document.getElementById(t+'Tab').classList.toggle('hidden',t!==tab);
-    document.getElementById('slink-'+t).classList.toggle('active',t===tab);
-  });
-  if(tab==='messages')markAllRead();
+// ═══ 📊 التتبع — fire & forget لا يبطئ شيئاً ═══
+function track(type,id,title){
+  try{
+    fetch(APP_SCRIPT_URL+'?action=track&type='+encodeURIComponent(type||'')+'&id='+encodeURIComponent(id||'')+'&title='+encodeURIComponent(title||''),{mode:'no-cors',keepalive:true});
+  }catch(e){}
 }
 
-// ═══ تحميل ═══
-async function loadAll(){
+var ALL={tools:[],articles:[],promoTools:[],promoArticles:[],adcodes:[],areacodes:[],settings:null};
+var articleCache={};
+
+async function loadData(){
+  var grid=document.getElementById('toolsGrid'),list=document.getElementById('articlesList');
+  if(!isConfigured()){grid.innerHTML='<div class="setup-msg" style="grid-column:1/-1">اربط config.js برابط Apps Script</div>';return;}
+  grid.innerHTML='<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';
+  list.innerHTML='<div class="skeleton" style="min-height:150px"></div><div class="skeleton" style="min-height:150px"></div>';
   try{
     var res=await fetch(APP_SCRIPT_URL+'?action=all');
     var j=await res.json();
     if(!j.success)throw new Error(j.error);
-    DATA.tools=j.data.tools||[];DATA.articles=j.data.articles||[];
-    DATA.promoTools=j.data.promoTools||[];DATA.promoArticles=j.data.promoArticles||[];
-    DATA.adcodes=j.data.adcodes||[];DATA.areacodes=j.data.areacodes||[];
-    renderAllLists();
-    try{var md=await api('getMessages');DATA.messages=md.messages||[];renderMessages();}catch(e){}
-  }catch(err){toast('تعذر التحميل: '+err.message,'err');}
-}
-function renderAllLists(){
-  renderOwnerList('toolsList','toolsCount',DATA.tools,true,'tool');
-  renderPromoList('promoToolsList','promoToolsCount',DATA.promoTools,'deletePromoTool');
-  renderPromoList('promoArticlesList','promoArticlesCount',DATA.promoArticles,'deletePromoArticle');
-  renderAdCodesList();renderAreaCodesList();
-  document.getElementById('articlesCount').textContent=DATA.articles.length;
-  renderArticlesListSimple();
-}
-
-// ═══ صور ═══
-function handleImage(input,type){
-  var file=input.files[0];if(!file)return;
-  if(file.size>5*1024*1024){toast('الصورة كبيرة (5MB)','err');input.value='';return;}
-  var r=new FileReader();
-  r.onload=async function(ev){
-    document.getElementById(type+'ImgPreview').src=ev.target.result;
-    document.getElementById(type+'ImgPreviewWrap').style.display='block';
-    var st=document.getElementById(type+'ImgStatus');
-    st.textContent='جاري الرفع...';st.className='upload-status';
-    try{var res=await api('uploadImage',{data:ev.target.result,mimeType:file.type});uploadedImages[type]=res.url;st.textContent='تم الرفع ✓';st.className='upload-status done';}
-    catch(err){st.textContent='✕ '+err.message;st.className='upload-status err';}
-  };
-  r.readAsDataURL(file);
-}
-function removeImage(type){uploadedImages[type]='';document.getElementById(type+'ImgPreviewWrap').style.display='none';document.getElementById(type+'ImgStatus').textContent='';document.getElementById(type+'ImgInput').value='';}
-
-// ═══ أدوات ═══
-async function submitTool(){
-  var id=document.getElementById('toolEditingId').value;
-  var title=document.getElementById('toolTitle').value.trim(),desc=document.getElementById('toolDesc').value.trim(),
-      url=document.getElementById('toolUrl').value.trim(),img=uploadedImages.tool;
-  if(!title||!desc||!url){toast('املأ كل الحقول','err');return;}
-  if(!img){toast('اختر صورة','err');return;}
-  var btn=document.getElementById('toolSubmitBtn');btn.disabled=true;btn.textContent='...';
-  try{
-    if(id){await api('updateTool',{id:id,title:title,description:desc,imageUrl:img,url:url});toast('تم الحفظ');}
-    else{await api('addTool',{title:title,description:desc,imageUrl:img,url:url});toast('نُشرت!');}
-    cancelToolEdit();loadAll();
-  }catch(e){toast(e.message,'err');}
-  finally{btn.disabled=false;btn.textContent='نشر الأداة';}
-}
-function editTool(id){
-  var t=DATA.tools.find(function(x){return x.id===id;});if(!t)return;
-  document.getElementById('toolEditingId').value=id;
-  document.getElementById('toolTitle').value=t.title;document.getElementById('toolDesc').value=t.description;document.getElementById('toolUrl').value=t.url;
-  uploadedImages.tool=t.imageUrl;document.getElementById('toolImgPreview').src=t.imageUrl;
-  document.getElementById('toolImgPreviewWrap').style.display='block';
-  document.getElementById('toolFormTitle').textContent='تعديل الأداة';
-  document.getElementById('toolSubmitBtn').textContent='حفظ';
-  document.getElementById('toolCancelBtn').classList.remove('hidden');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function cancelToolEdit(){
-  document.getElementById('toolEditingId').value='';
-  document.getElementById('toolTitle').value='';document.getElementById('toolDesc').value='';document.getElementById('toolUrl').value='';
-  removeImage('tool');
-  document.getElementById('toolFormTitle').textContent='إضافة أداة جديدة';
-  document.getElementById('toolSubmitBtn').textContent='نشر الأداة';
-  document.getElementById('toolCancelBtn').classList.add('hidden');
-}
-async function deleteTool(id){if(!confirm('حذف؟'))return;try{await api('deleteTool',{id:id});toast('حُذفت');loadAll();}catch(e){toast(e.message,'err');}}
-
-// ═══ إعلانية ═══
-async function submitPromoTool(){
-  var title=document.getElementById('promoToolTitle').value.trim(),desc=document.getElementById('promoToolDesc').value.trim(),
-      url=document.getElementById('promoToolUrl').value.trim(),img=uploadedImages.promoTool;
-  if(!title||!desc){toast('املأ العنوان والوصف','err');return;}
-  if(!img){toast('اختر صورة','err');return;}
-  var btn=document.getElementById('promoToolSubmitBtn');btn.disabled=true;btn.textContent='...';
-  try{await api('addPromoTool',{title:title,description:desc,imageUrl:img,url:url});toast('نُشر!');cancelPromoToolForm();loadAll();}
-  catch(e){toast(e.message,'err');}
-  finally{btn.disabled=false;btn.textContent='نشر الإعلان';}
-}
-function cancelPromoToolForm(){
-  document.getElementById('promoToolTitle').value='';document.getElementById('promoToolDesc').value='';
-  document.getElementById('promoToolUrl').value='';removeImage('promoTool');
-}
-async function deletePromoTool(id){if(!confirm('حذف؟'))return;try{await api('deletePromoTool',{id:id});toast('حُذف');loadAll();}catch(e){toast(e.message,'err');}}
-async function submitPromoArticle(){
-  var title=document.getElementById('promoArticleTitle').value.trim(),desc=document.getElementById('promoArticleDesc').value.trim(),
-      url=document.getElementById('promoArticleUrl').value.trim(),img=uploadedImages.promoArticle;
-  if(!title||!desc){toast('املأ العنوان والوصف','err');return;}
-  if(!img){toast('اختر صورة','err');return;}
-  var btn=document.getElementById('promoArticleSubmitBtn');btn.disabled=true;btn.textContent='...';
-  try{await api('addPromoArticle',{title:title,description:desc,imageUrl:img,url:url});toast('نُشر!');cancelPromoArticleForm();loadAll();}
-  catch(e){toast(e.message,'err');}
-  finally{btn.disabled=false;btn.textContent='نشر الإعلان';}
-}
-function cancelPromoArticleForm(){
-  document.getElementById('promoArticleTitle').value='';document.getElementById('promoArticleDesc').value='';
-  document.getElementById('promoArticleUrl').value='';removeImage('promoArticle');
-}
-async function deletePromoArticle(id){if(!confirm('حذف؟'))return;try{await api('deletePromoArticle',{id:id});toast('حُذف');loadAll();}catch(e){toast(e.message,'err');}}
-
-// ═══ أكواد الإعلانات ═══
-async function submitAdCode(){
-  var name=document.getElementById('adCodeName').value.trim(),code=document.getElementById('adCodeText').value;
-  if(!name){toast('أعط الكود اسماً','err');return;}
-  if(!code.trim()){toast('الصق الكود','err');return;}
-  var btn=document.getElementById('adCodeSubmitBtn');btn.disabled=true;btn.textContent='...';
-  try{await api('addAdCode',{name:name,code:code});toast('حُفظ!');document.getElementById('adCodeName').value='';document.getElementById('adCodeText').value='';loadAll();}
-  catch(e){toast(e.message,'err');}
-  finally{btn.disabled=false;btn.textContent='حفظ الكود';}
-}
-async function deleteAdCode(id){if(!confirm('حذف؟'))return;try{await api('deleteAdCode',{id:id});toast('حُذف');loadAll();}catch(e){toast(e.message,'err');}}
-function renderAdCodesList(){
-  var list=document.getElementById('adCodesList');
-  document.getElementById('adCodesCount').textContent=DATA.adcodes.length;
-  if(!DATA.adcodes.length){list.innerHTML='<div class="empty-list">لا توجد أكواد</div>';return;}
-  list.innerHTML=DATA.adcodes.map(function(c){
-    return '<div class="item-row"><div class="item-info"><strong>'+esc(c.name)+'</strong><small>'+esc(c.code.substring(0,60))+'...</small></div>'+
-    '<div class="item-actions"><button class="mini-btn del" onclick="deleteAdCode(\''+esc(c.id)+'\')">حذف</button></div></div>';
-  }).join('');
-}
-
-// ═══ 📍 إعلانات المواضع ═══
-async function submitAreaCode(){
-  var name=document.getElementById('areaCodeName').value.trim(),
-      pos=document.getElementById('areaCodePosition').value,
-      code=document.getElementById('areaCodeText').value;
-  if(!name){toast('أعط اسماً','err');return;}
-  if(!code.trim()){toast('الصق الكود','err');return;}
-  var btn=document.getElementById('areaCodeSubmitBtn');btn.disabled=true;btn.textContent='...';
-  try{await api('addAreaCode',{name:name,position:pos,code:code});toast('حُفظ! سيظهر في الموقع');
-    document.getElementById('areaCodeName').value='';document.getElementById('areaCodeText').value='';loadAll();}
-  catch(e){toast(e.message,'err');}
-  finally{btn.disabled=false;btn.textContent='حفظ الإعلان';}
-}
-async function deleteAreaCode(id){if(!confirm('حذف؟'))return;try{await api('deleteAreaCode',{id:id});toast('حُذف');loadAll();}catch(e){toast(e.message,'err');}}
-function renderAreaCodesList(){
-  var list=document.getElementById('areaCodesList');
-  document.getElementById('areaCodesCount').textContent=DATA.areacodes.length;
-  if(!DATA.areacodes.length){list.innerHTML='<div class="empty-list">لا توجد إعلانات مواضع</div>';return;}
-  list.innerHTML=DATA.areacodes.map(function(c){
-    return '<div class="item-row"><div class="item-info"><strong>'+esc(c.name)+'</strong><small>الموضع: '+(c.position==='tools'?'وسط الأدوات':'وسط المقالات')+'</small></div>'+
-    '<div class="item-actions"><button class="mini-btn del" onclick="deleteAreaCode(\''+esc(c.id)+'\')">حذف</button></div></div>';
-  }).join('');
-}
-
-// ═══ ✍️ محرر بلوجر ═══
-function setEditorMode(mode){
-  if(mode===editorMode)return;
-  if(mode==='md'){
-    // مرئي → Markdown: حوّل HTML إلى MD
-    var html=document.getElementById('visualEditor').innerHTML;
-    if(html.trim()){
-      try{document.getElementById('articleContent').value=turndownSvc.turndown(html);}catch(e){}
-    }
-    editorMode='md';
-  }else{
-    // Markdown → مرئي
-    var md=document.getElementById('articleContent').value;
-    document.getElementById('visualEditor').innerHTML=DOMPurify.sanitize(marked.parse(md||''));
-    editorMode='visual';
+    ALL=j.data;
+    applySettings();
+    renderTools();renderArticles();observeReveals();
+    track('visit','site','زيارة موقع');
+  }catch(err){
+    grid.innerHTML='<div class="setup-msg" style="grid-column:1/-1">'+esc(err.message)+'</div>';
   }
-  document.getElementById('visualWrap').classList.toggle('hidden',editorMode!=='visual');
-  document.getElementById('mdWrap').classList.toggle('hidden',editorMode!=='md');
-  document.getElementById('modeVisualBtn').classList.toggle('active',editorMode==='visual');
-  document.getElementById('modeMdBtn').classList.toggle('active',editorMode==='md');
-  if(editorMode==='md')previewMd();
 }
-function getContent(){
-  if(editorMode==='md')return document.getElementById('articleContent').value;
-  try{return turndownSvc.turndown(document.getElementById('visualEditor').innerHTML);}catch(e){return'';}
-}
-function setContent(content){
-  document.getElementById('articleContent').value=content||'';
-  document.getElementById('visualEditor').innerHTML=DOMPurify.sanitize(marked.parse(content||''));
-}
-function fmtCmd(cmd){document.execCommand(cmd,false,null);}
-function fmtBlock(tag){document.execCommand('formatBlock',false,tag);}
-function insertLink(){
-  var url=prompt('رابط URL:','https://');
-  if(url)document.execCommand('createLink',false,url);
-}
-function insertLinkImage(){
-  var url=prompt('رابط الصورة:','https://');
-  if(url)document.execCommand('insertImage',false,url);
-}
-function previewMd(){
-  var content=document.getElementById('articleContent').value;
-  var html=marked.parse(content||'*ابدأ الكتابة...*');
-  html=html.replace(/\[\[AD:([^\]]+)\]\]/g,function(m,id){
-    var c=DATA.adcodes.find(function(x){return x.id===id;});
-    return '<span class="ad-tag">إعلان: '+esc(c?c.name:id)+'</span>';
-  });
-  document.getElementById('mdPreview').innerHTML=DOMPurify.sanitize(html);
-}
-function openAdPicker(){
-  var list=document.getElementById('adPickerList');
-  if(!DATA.adcodes.length){list.innerHTML='<div class="empty-list">أضف كوداً من تبويب أكواد الإعلانات أولاً</div>';}
-  else{
-    list.innerHTML=DATA.adcodes.map(function(c){
-      return '<div class="ad-option" onclick="insertAd(\''+esc(c.id)+'\')"><strong>'+esc(c.name)+'</strong><span style="color:var(--gold);font-weight:700">إدراج ←</span></div>';
+
+// ═══ 🎨 تطبيق إعدادات التخصيص ═══
+function applySettings(){
+  var s=ALL.settings;if(!s)return;
+  if(s.siteTitle){
+    document.title=s.siteTitle;
+    document.getElementById('brandTitle').textContent=s.siteTitle;
+    document.getElementById('heroTitle').textContent=s.siteTitle;
+  }
+  if(s.tagline)document.getElementById('heroTagline').textContent=s.tagline;
+  if(s.avatar){
+    document.getElementById('brandAvatar').src=s.avatar;
+    document.getElementById('heroAvatar').src=s.avatar;
+    document.getElementById('faviconLink').href=s.avatar;
+  }
+  if(s.youtube){
+    document.getElementById('ytHeroBtn').href=s.youtube;
+    document.getElementById('ytBtn').href=s.youtube;
+  }
+  if(s.youtubeBanner)document.getElementById('ytBanner').src=s.youtubeBanner;
+  if(s.github)document.getElementById('ghHeroBtn').href=s.github;
+  if(s.footerCopyright)document.getElementById('footerCopy').textContent=s.footerCopyright;
+  // روابط البار العلوي (مع الإبقاء على الثيم)
+  if(Array.isArray(s.headerLinks)&&s.headerLinks.length){
+    var nav=document.getElementById('mainNav');
+    nav.innerHTML=s.headerLinks.map(function(l){
+      var ext=l.url.indexOf('http')===0;
+      return '<a href="'+esc(l.url)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+esc(l.label)+'</a>';
+    }).join('')+document.getElementById('themeToggle').outerHTML;
+    document.getElementById('themeToggle').onclick=function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');};
+  }
+  // روابط الفوتر
+  if(Array.isArray(s.footerLinks)&&s.footerLinks.length){
+    document.getElementById('footerLinks').innerHTML=s.footerLinks.map(function(l){
+      var ext=l.url.indexOf('http')===0;
+      return '<a href="'+esc(l.url)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+esc(l.label)+'</a>';
     }).join('');
   }
-  document.getElementById('adPickerModal').classList.add('show');
-}
-function closeAdPicker(){document.getElementById('adPickerModal').classList.remove('show');}
-function insertAd(codeId){
-  var tag='[[AD:'+codeId+']]';
-  if(editorMode==='visual'){
-    document.getElementById('visualEditor').focus();
-    document.execCommand('insertText',false,'\n'+tag+'\n');
-  }else{
-    var ta=document.getElementById('articleContent');
-    var start=ta.selectionStart||ta.value.length,end=ta.selectionEnd||ta.value.length;
-    ta.value=ta.value.substring(0,start)+'\n\n'+tag+'\n\n'+ta.value.substring(end);
-    previewMd();
-  }
-  closeAdPicker();toast('أُدرج الإعلان');
 }
 
-async function submitArticle(){
-  var id=document.getElementById('articleEditingId').value;
-  var title=document.getElementById('articleTitle').value.trim(),desc=document.getElementById('articleDesc').value.trim(),
-      content=getContent(),img=uploadedImages.article;
-  if(!title||!desc){toast('املأ العنوان والوصف','err');return;}
-  if(!content.trim()){toast('اكتب المحتوى','err');return;}
-  if(!img){toast('اختر صورة غلاف','err');return;}
-  var btn=document.getElementById('articleSubmitBtn');btn.disabled=true;btn.textContent='...';
-  try{
-    if(id){await api('updateArticle',{id:id,title:title,description:desc,imageUrl:img,content:content});toast('تم الحفظ');}
-    else{await api('addArticle',{title:title,description:desc,imageUrl:img,content:content});toast('نُشر المقال!');}
-    cancelArticleEdit();loadAll();
-  }catch(e){toast(e.message,'err');}
-  finally{btn.disabled=false;btn.textContent='نشر المقال';}
+// ═══ دمج + تباعد ═══
+function interleave(main,extras,everyN){
+  if(!extras.length)return main;
+  var out=[],p=0;
+  main.forEach(function(item,i){
+    out.push(item);
+    if((i+1)%everyN===0&&p<extras.length){out.push(extras[p]);p++;}
+  });
+  while(p<extras.length){out.push(extras[p]);p++;}
+  return out;
 }
-function cancelArticleEdit(){
-  document.getElementById('articleEditingId').value='';
-  document.getElementById('articleTitle').value='';document.getElementById('articleDesc').value='';
-  setContent('');removeImage('article');
-  document.getElementById('articleFormTitle').textContent='إنشاء مقال جديد';
-  document.getElementById('articleSubmitBtn').textContent='نشر المقال';
-  document.getElementById('articleCancelBtn').classList.add('hidden');
+function toolExtras(){
+  var arr=(ALL.promoTools||[]).map(function(x){return Object.assign({_promo:true},x);});
+  (ALL.areacodes||[]).filter(function(a){return a.position==='tools';}).forEach(function(a){arr.push({_adcode:true,code:a.code});});
+  return arr;
 }
-async function editArticle(id){
+function articleExtras(){
+  var arr=(ALL.promoArticles||[]).map(function(x){return Object.assign({_promo:true},x);});
+  (ALL.areacodes||[]).filter(function(a){return a.position==='articles';}).forEach(function(a){arr.push({_adcode:true,code:a.code});});
+  return arr;
+}
+
+function renderTools(){
+  var grid=document.getElementById('toolsGrid');
+  var merged=interleave(ALL.tools||[],toolExtras(),2);
+  if(!merged.length){grid.innerHTML='<div class="empty-msg" style="grid-column:1/-1"><p>لا توجد أدوات منشورة بعد</p></div>';return;}
+  grid.innerHTML=merged.map(function(t,i){
+    if(t._adcode){
+      return '<div class="ad-code-card reveal"><span class="ad-badge">إعلان</span><div class="ad-holder" data-code="'+encodeURIComponent(t.code)+'"></div></div>';
+    }
+    var promo=!!t._promo;
+    return '<a class="tool-card reveal" style="transition-delay:'+(i%3)*80+'ms"'+
+      (t.url?' href="'+esc(t.url)+'" target="_blank" rel="noopener" onclick="track(\'tool\',\''+esc(t.id||'')+'\',\''+esc(t.title)+'\')"':'')+'>'+
+      (promo?'<span class="ad-badge">إعلان</span>':'')+
+      '<div class="tool-thumb"><img src="'+esc(t.imageUrl)+'" alt="'+esc(t.title)+'" loading="lazy" onerror="this.style.display=\'none\'"></div>'+
+      '<div class="tool-body"><h3>'+esc(t.title)+'</h3><p>'+esc(t.description)+'</p>'+
+      '<span class="tool-link">'+(promo?'اعرف المزيد':'فتح الأداة')+' ←</span></div></a>';
+  }).join('');
+  mountAreaAds();
+}
+
+function renderArticles(){
+  var list=document.getElementById('articlesList');
+  var merged=interleave(ALL.articles||[],articleExtras(),2);
+  if(!merged.length){list.innerHTML='<div class="empty-msg"><p>لا توجد مقالات منشورة بعد</p></div>';return;}
+  list.innerHTML=merged.map(function(a,i){
+    if(a._adcode){
+      return '<div class="ad-code-banner reveal"><span class="ad-badge">إعلان</span><div class="ad-holder" data-code="'+encodeURIComponent(a.code)+'" data-h="180"></div></div>';
+    }
+    var promo=!!a._promo;
+    return '<div class="article-card reveal" style="transition-delay:'+(i%2)*80+'ms"'+
+      (promo?' onclick="'+(a.url?'window.open(\''+esc(a.url)+'\',\'_blank\')':'')+'"':' onclick="openArticle(\''+esc(a.id)+'\')"')+'>'+
+      (promo?'<span class="ad-badge">إعلان</span>':'')+
+      '<div class="article-thumb"><img src="'+esc(a.imageUrl)+'" alt="'+esc(a.title)+'" loading="lazy" onerror="this.style.display=\'none\'"></div>'+
+      '<div class="article-info">'+
+      '<span class="article-date">'+(promo?'محتوى مميز':'📅 '+fmtDate(a.date))+'</span>'+
+      '<h3>'+esc(a.title)+'</h3><p>'+esc(a.description)+'</p>'+
+      '<span class="tool-link">'+(promo?'اعرف المزيد':'اقرأ المقال')+' ←</span></div></div>';
+  }).join('');
+}
+
+// 📢 تحميل أكواد الإعلانات داخل iframes معزولة (تعمل مع أدسيسيرا/أدستيرا 100%)
+function mountAreaAds(){
+  document.querySelectorAll('.ad-holder').forEach(function(h){
+    var code=decodeURIComponent(h.getAttribute('data-code'));
+    var hgt=h.getAttribute('data-h')||'300';
+    var f=document.createElement('iframe');
+    f.style.cssText='width:100%;border:0;display:block;height:'+hgt+'px;background:transparent';
+    f.setAttribute('loading','lazy');
+    f.srcdoc='<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;overflow:hidden;display:flex;align-items:center;justify-content:center}</style></head><body>'+code+'</body></html>';
+    h.parentNode.replaceChild(f,h);
+  });
+}
+
+// ═══ ⚡ فتح المقال فوري: عنوان وصورة من الذاكرة + المحتوى يُجلب ═══
+async function openArticle(id){
+  track('article',id,(ALL.articles.find(function(a){return a.id===id;})||{}).title||'');
+  var url=new URL(window.location);url.searchParams.set('article',id);
+  history.pushState({},'',url);
+  // عرض فوري من البيانات المحمّلة
+  var cached=(ALL.articles||[]).find(function(a){return a.id===id;});
+  if(cached){
+    document.getElementById('articleCover').src=cached.imageUrl||'';
+    document.getElementById('articleTitle').textContent=cached.title;
+    document.getElementById('articleDate').textContent='📅 '+fmtDate(cached.date);
+  }
+  document.getElementById('articleContent').innerHTML='<div class="skeleton" style="min-height:220px;border:none"></div>';
+  document.getElementById('homeView').style.display='none';
+  document.getElementById('articleView').style.display='block';
+  window.scrollTo(0,0);
+  await showArticle(id);
+}
+function backHome(){
+  var url=new URL(window.location);url.searchParams.delete('article');
+  history.pushState({},'',url);
+  document.getElementById('articleView').style.display='none';
+  document.getElementById('homeView').style.display='block';
+  window.scrollTo(0,0);
+}
+
+function mountAdIframe(code,slot){
+  slot.innerHTML='';
+  var inner=document.createElement('div');
+  if(!code||!code.trim()){
+    inner.innerHTML='<small style="color:var(--muted);font-size:.8rem">لم يُعثر على كود الإعلان</small>';
+    slot.appendChild(inner);return;
+  }
+  var f=document.createElement('iframe');
+  f.style.cssText='width:100%;border:0;display:block;height:250px;background:transparent';
+  f.setAttribute('loading','lazy');
+  f.srcdoc='<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;overflow:hidden;display:flex;align-items:center;justify-content:center}</style></head><body>'+code+'</body></html>';
+  slot.appendChild(f);
+}
+
+async function showArticle(id){
+  if(articleCache[id]){renderArticleBody(articleCache[id]);return;}
   try{
-    toast('جاري جلب المقال...');
     var res=await fetch(APP_SCRIPT_URL+'?action=getArticle&id='+encodeURIComponent(id));
     var j=await res.json();
     if(!j.success)throw new Error(j.error);
-    var a=j.data.article;
-    document.getElementById('articleEditingId').value=id;
-    document.getElementById('articleTitle').value=a.title;
-    document.getElementById('articleDesc').value=a.description;
-    setContent(a.content||'');
-    uploadedImages.article=a.imageUrl;
-    document.getElementById('articleImgPreview').src=a.imageUrl;
-    document.getElementById('articleImgPreviewWrap').style.display='block';
-    document.getElementById('articleFormTitle').textContent='تعديل المقال';
-    document.getElementById('articleSubmitBtn').textContent='حفظ';
-    document.getElementById('articleCancelBtn').classList.remove('hidden');
-    switchTab('articles');
-    window.scrollTo({top:0,behavior:'smooth'});
-  }catch(e){toast(e.message,'err');}
-}
-async function deleteArticle(id){if(!confirm('حذف؟'))return;try{await api('deleteArticle',{id:id});toast('حُذف');loadAll();}catch(e){toast(e.message,'err');}}
-function renderArticlesListSimple(){
-  var list=document.getElementById('articlesList');
-  if(!DATA.articles.length){list.innerHTML='<div class="empty-list">لا توجد مقالات</div>';return;}
-  list.innerHTML=DATA.articles.map(function(a){
-    return '<div class="item-row"><img class="item-thumb" src="'+esc(a.imageUrl)+'" onerror="this.style.visibility=\'hidden\'">'+
-    '<div class="item-info"><strong>'+esc(a.title)+'</strong><small>'+esc(a.description)+'</small></div>'+
-    '<div class="item-actions"><button class="mini-btn edit" onclick="editArticle(\''+esc(a.id)+'\')">تعديل</button>'+
-    '<button class="mini-btn del" onclick="deleteArticle(\''+esc(a.id)+'\')">حذف</button></div></div>';
-  }).join('');
+    articleCache[id]=j.data.article;
+    if(!document.getElementById('articleTitle').textContent){
+      document.getElementById('articleCover').src=j.data.article.imageUrl;
+      document.getElementById('articleTitle').textContent=j.data.article.title;
+      document.getElementById('articleDate').textContent='📅 '+fmtDate(j.data.article.date);
+    }
+    renderArticleBody(articleCache[id]);
+  }catch(err){
+    document.getElementById('articleContent').innerHTML='<p style="color:var(--danger)">تعذر تحميل المقال: '+esc(err.message)+'</p>';
+  }
 }
 
-// ═══ قوائم عامة ═══
-function renderOwnerList(listId,countId,items,canEdit,prefix){
-  var list=document.getElementById(listId);
-  document.getElementById(countId).textContent=items.length;
-  if(!items.length){list.innerHTML='<div class="empty-list">لا يوجد شيء بعد</div>';return;}
-  list.innerHTML=items.map(function(t){
-    return '<div class="item-row"><img class="item-thumb" src="'+esc(t.imageUrl)+'" onerror="this.style.visibility=\'hidden\'">'+
-    '<div class="item-info"><strong>'+esc(t.title)+'</strong><small>'+esc(t.url||t.description)+'</small></div>'+
-    '<div class="item-actions">'+
-    (canEdit?'<button class="mini-btn edit" onclick="edit'+prefix.charAt(0).toUpperCase()+prefix.slice(1)+'(\''+esc(t.id)+'\')">تعديل</button>':'')+
-    '<button class="mini-btn del" onclick="delete'+prefix.charAt(0).toUpperCase()+prefix.slice(1)+'(\''+esc(t.id)+'\')">حذف</button></div></div>';
-  }).join('');
-}
-function renderPromoList(listId,countId,items,delFn){
-  var list=document.getElementById(listId);
-  document.getElementById(countId).textContent=items.length;
-  if(!items.length){list.innerHTML='<div class="empty-list">لا يوجد شيء بعد</div>';return;}
-  list.innerHTML=items.map(function(t){
-    return '<div class="item-row"><img class="item-thumb" src="'+esc(t.imageUrl)+'" onerror="this.style.visibility=\'hidden\'">'+
-    '<div class="item-info"><strong>'+esc(t.title)+'</strong><small>'+esc(t.description)+'</small></div>'+
-    '<div class="item-actions"><button class="mini-btn del" onclick="'+delFn+'(\''+esc(t.id)+'\')">حذف</button></div></div>';
-  }).join('');
+function renderArticleBody(a){
+  var rawHtml=marked.parse(a.content||'');
+  var parts=rawHtml.split(/\[\[AD:([^\]]+)\]\]/);
+  var container=document.getElementById('articleContent');
+  container.innerHTML='';
+  var adMap={};
+  (ALL.adcodes||[]).forEach(function(c){adMap[c.id]=c.code;});
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0){
+      var div=document.createElement('div');
+      div.innerHTML=DOMPurify.sanitize(parts[i]);
+      while(div.firstChild)container.appendChild(div.firstChild);
+    }else{
+      var slot=document.createElement('div');
+      slot.className='ad-slot';
+      container.appendChild(slot);
+      mountAdIframe(adMap[parts[i]]||'',slot);
+    }
+  }
 }
 
-// ═══ رسائل ═══
-function renderMessages(){
-  var biz=DATA.messages.filter(function(m){return m.type==='business';});
-  var gen=DATA.messages.filter(function(m){return m.type==='general';});
-  var newCount=DATA.messages.filter(function(m){return new Date(m.date).getTime()>Number(lastReadTime);}).length;
-  document.getElementById('statBiz').textContent=biz.length;
-  document.getElementById('statGeneral').textContent=gen.length;
-  document.getElementById('statNew').textContent=newCount;
-  var badge=document.getElementById('msgBadge');
-  if(newCount>0){badge.textContent=newCount;badge.classList.remove('hidden');}else badge.classList.add('hidden');
-  var bizBox=document.getElementById('bizMessages');
-  if(!biz.length)bizBox.innerHTML='<div class="empty-list">لا توجد رسائل أعمال بعد</div>';
-  else bizBox.innerHTML=biz.map(function(m){
-    var isNew=new Date(m.date).getTime()>Number(lastReadTime);
-    return '<div class="biz-msg"><div class="biz-head"><div><div class="biz-subject">'+(isNew?'جديدة — ':'')+esc(m.subject)+'</div>'+
-    '<a class="biz-email" href="mailto:'+esc(m.email)+'">'+esc(m.email)+'</a></div><span class="biz-date">'+fmtDate(m.date)+'</span></div>'+
-    '<div class="biz-text">'+esc(m.text)+'</div><div class="biz-actions">'+
-    '<a class="mini-btn edit" href="mailto:'+esc(m.email)+'?subject='+encodeURIComponent('رد: '+m.subject)+'">رد عليه</a>'+
-    '<button class="mini-btn del" onclick="deleteMessage(\''+esc(m.id)+'\')">حذف</button></div></div>';
-  }).join('');
-  var strip=document.getElementById('generalStrip');
-  if(!gen.length)strip.innerHTML='<div class="empty-list" style="width:100%">لا توجد رسائل عامة</div>';
-  else strip.innerHTML=gen.map(function(m){
-    var isNew=new Date(m.date).getTime()>Number(lastReadTime);
-    return '<div class="g-msg'+(isNew?' new-msg':'')+'"><span class="g-date">'+(isNew?'جديدة — ':'')+fmtDate(m.date)+'</span>'+
-    '<div class="g-text">'+esc(m.text)+'</div>'+
-    '<button class="mini-btn del" style="align-self:flex-start" onclick="deleteMessage(\''+esc(m.id)+'\')">حذف</button></div>';
-  }).join('');
-}
-function scrollStrip(dir){document.getElementById('generalStrip').scrollBy({left:dir*260,behavior:'smooth'});}
-async function deleteMessage(id){
-  if(!confirm('حذف؟'))return;
-  try{await api('deleteMessage',{id:id});DATA.messages=DATA.messages.filter(function(m){return m.id!==id;});renderMessages();toast('حُذفت');}catch(e){toast(e.message,'err');}
-}
-function markAllRead(){lastReadTime=String(Date.now());localStorage.setItem('md_lastRead',lastReadTime);renderMessages();}
+window.onpopstate=function(){
+  var id=new URLSearchParams(window.location.search).get('article');
+  if(id)openArticle(id);else backHome();
+};
 
-// ═══ بدء ═══
-(function init(){
-  var saved=sessionStorage.getItem('md_auth');
-  if(saved){try{auth=JSON.parse(saved);showPanel();return;}catch(e){}}
-  document.getElementById('loginScreen').style.display='flex';
-})();
+var observer;
+function observeReveals(){
+  if(observer)observer.disconnect();
+  observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('visible');observer.unobserve(en.target);}
+    });
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el);});
+}
+
+var articleParam=new URLSearchParams(window.location.search).get('article');
+if(articleParam&&isConfigured()){loadData().then(function(){openArticle(articleParam);});}
+else{loadData();}
 </script>
 </body>
 </html>
